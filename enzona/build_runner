@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo INFO: Use --delete-conflicting-outputs when there is any problem on output, also recommended for CI.
+echo Running code generation
+echo ...
+flutter pub run build_runner "$1" \
+--build-filter 'package:enzona/src/entity/*.dart' \
+--build-filter 'package:enzona/src/service/*.dart' \
+"$2" "$3" "$4" "$5"
