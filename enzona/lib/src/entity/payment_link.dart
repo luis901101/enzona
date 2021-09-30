@@ -10,10 +10,11 @@ class PaymentLink extends Jsonable<PaymentLink>{
 	String? method;
 	String? href;
 
-	@override
 	PaymentLink({this.rel, this.method, this.href});
+
+	@override
+	Map<String, dynamic> toJson() => _$PaymentLinkToJson(this);
 	@override
 	PaymentLink? fromJsonMap(Map<String, dynamic>? json) => json != null ? PaymentLink.fromJson(json) : null;
-	Map<String, dynamic> toJson() => _$PaymentLinkToJson(this);
 	factory PaymentLink.fromJson(Map<String, dynamic> json) => _$PaymentLinkFromJson(json);
 }

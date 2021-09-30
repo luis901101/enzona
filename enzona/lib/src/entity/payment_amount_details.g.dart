@@ -9,10 +9,10 @@ part of 'payment_amount_details.dart';
 PaymentAmountDetails _$PaymentAmountDetailsFromJson(
         Map<String, dynamic> json) =>
     PaymentAmountDetails(
-      shipping: JsonUtils.doubleFromJsonString(json['shipping']),
-      tax: JsonUtils.doubleFromJsonString(json['tax']),
-      discount: JsonUtils.doubleFromJsonString(json['discount']),
-      tip: JsonUtils.doubleFromJsonString(json['tip']),
+      shipping: JsonUtils.doubleFromJson(json['shipping']),
+      tax: JsonUtils.doubleFromJson(json['tax']),
+      discount: JsonUtils.doubleFromJson(json['discount']),
+      tip: JsonUtils.doubleFromJson(json['tip']),
     );
 
 Map<String, dynamic> _$PaymentAmountDetailsToJson(

@@ -1,11 +1,18 @@
 import 'package:chopper/chopper.dart';
+import 'package:enzona/src/base_api/base_authorization_api.dart';
 import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
+import 'package:enzona/src/entity/pagination.dart';
 import 'package:enzona/src/utils/jsonable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-abstract class RestAPIService<I extends ChopperService,
-    DataType extends Jsonable, ErrorType> implements ChopperService {
+abstract class RestAPIService<I extends ChopperService, DataType extends Jsonable, ErrorType> with BaseAuthorizationAPI implements ChopperService {
+
+  static const authorizationKey = "Authorization";
+
+  static const Map<String, String> defaultHeaders = {
+  };
+
   I service;
   DataType? dataType;
   ErrorType? errorType;
@@ -20,10 +27,23 @@ abstract class RestAPIService<I extends ChopperService,
     this.restAPI.addService(service);
   }
 
-  dynamic getAuthorization();
-
-  updateHttpClient(http.Client httpClient) {
+  void updateHttpClient(http.Client httpClient) {
     restAPI.init(httpClient: httpClient);
+  }
+
+  Object? parseError(Response response) {
+    Object? errorTypeResult = response.error;
+    try {
+      if (errorType is Jsonable) {
+        errorTypeResult = response.error is String
+            ? (errorType as Jsonable).fromJsonString(response.error?.toString())
+            : (errorType as Jsonable)
+            .fromJsonMap(response.error as Map<String, dynamic>?);
+      }
+    } catch (e) {
+      print(e);
+    }
+    return errorTypeResult;
   }
 
   Future<Response> getSaveResponse(Future<Response> futureResponse) async {
@@ -50,19 +70,9 @@ abstract class RestAPIService<I extends ChopperService,
     return genericParseResponseAsList(futureResponse, dataType);
   }
 
-  Object? parseError(Response response) {
-    Object? errorTypeResult = response.error;
-    try {
-      if (errorType is Jsonable) {
-        errorTypeResult = response.error is String
-            ? (errorType as Jsonable).fromJsonString(response.error?.toString())
-            : (errorType as Jsonable)
-                .fromJsonMap(response.error as Map<String, dynamic>?);
-      }
-    } catch (e) {
-      print(e);
-    }
-    return errorTypeResult;
+  Future<Response<List<DataType>>> parsePaginationResponseAsList(
+      Future<Response> futureResponse, String dataListParam) async {
+    return genericParsePaginationResponseAsList(futureResponse, dataType, dataListParam);
   }
 
   Future<Response<DataTypeGeneric>> genericParseResponse<DataTypeGeneric extends Jsonable?>(
@@ -128,8 +138,44 @@ abstract class RestAPIService<I extends ChopperService,
     return Response<List<DataTypeGeneric>>(response.base, null, error: response.error);
   }
 
-  // @override
-  // void dispose() => service.dispose(); // ChopperService no longer support .dispose()
+  Future<Response<List<DataTypeGeneric>>>
+      genericParsePaginationResponseAsList<DataTypeGeneric extends Jsonable?>(
+          Future<Response> futureResponse, DataTypeGeneric? dataType, String dataListParam) async {
+    Response response = await getSaveResponse(futureResponse);
+    try {
+      if (dataType != null) {
+        final body = response.body;
+        if(body is Map) {
+          Pagination pagination = Pagination.fromJson(body[Pagination.paginationParam]);
+          response.base.headers[Pagination.totalCountHeader] = pagination.total?.toString() ?? '0';
+          List<DataTypeGeneric>? dataList = dataType.fromJsonList(body[dataListParam]) as List<DataTypeGeneric>?;
+          Object? errorTypeResult = parseError(response);
+          return Response<List<DataTypeGeneric>>(
+            response.base,
+            dataList,
+            error: errorTypeResult
+          );
+        }
+      }
+    } catch (e) {
+      String message = e.toString();
+      response = Response(
+        http.Response(
+          response.body?.toString() ?? '',
+          Jsonable.jsonParserError,
+          headers: response.base.headers,
+          isRedirect: response.base.isRedirect,
+          persistentConnection: response.base.persistentConnection,
+          reasonPhrase: response.base.reasonPhrase,
+          request: response.base.request,
+        ),
+        response.body,
+        error: message
+      );
+      print(e);
+    }
+    return Response<List<DataTypeGeneric>>(response.base, null, error: response.error);
+  }
 
   @override
   Type get definitionType => service.definitionType;

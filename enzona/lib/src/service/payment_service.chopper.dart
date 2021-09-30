@@ -18,8 +18,7 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> getPayments(
-      {String? authorization,
-      dynamic merchantUUID,
+      {dynamic merchantUUID,
       int? pageSize,
       int? pageIndex,
       dynamic merchantOp,
@@ -42,69 +41,42 @@ class _$PaymentService extends PaymentService {
       'order_filter': order
     };
     $params.addAll(filters);
-    final $headers = {
-      if (authorization != null) 'Authorization': authorization,
-    };
-
-    final $request = Request('GET', $url, client.baseUrl,
-        parameters: $params, headers: $headers);
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> getPayment(
-      {required String authorization, required String transactionUUID}) {
+  Future<Response<dynamic>> getPayment({required String transactionUUID}) {
     final $url = '/payments/$transactionUUID';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
-    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> createPayment(
-      {required String authorization, required Payment data}) {
+  Future<Response<dynamic>> createPayment({required Payment data}) {
     final $url = '/payments';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
     final $body = data;
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> completePayment(
-      {required String authorization, required String transactionUUID}) {
+  Future<Response<dynamic>> completePayment({required String transactionUUID}) {
     final $url = '/payments/$transactionUUID/complete';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
-    final $request = Request('POST', $url, client.baseUrl, headers: $headers);
+    final $request = Request('POST', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> cancelPayment(
-      {required String authorization, required String transactionUUID}) {
+  Future<Response<dynamic>> cancelPayment({required String transactionUUID}) {
     final $url = '/payments/$transactionUUID/cancel';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
-    final $request = Request('POST', $url, client.baseUrl, headers: $headers);
+    final $request = Request('POST', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getRefunds(
-      {String? authorization,
-      dynamic merchantUUID,
+      {dynamic merchantUUID,
       dynamic transactionUUID,
       dynamic commerceRefundId,
       int? pageSize,
@@ -127,40 +99,23 @@ class _$PaymentService extends PaymentService {
       'order_filter': order
     };
     $params.addAll(filters);
-    final $headers = {
-      if (authorization != null) 'Authorization': authorization,
-    };
-
-    final $request = Request('GET', $url, client.baseUrl,
-        parameters: $params, headers: $headers);
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> getRefund(
-      {required String authorization, required String transactionUUID}) {
+  Future<Response<dynamic>> getRefund({required String transactionUUID}) {
     final $url = '/payments/refund/$transactionUUID';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
-    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> refundPayment(
-      {required String authorization,
-      required String transactionUUID,
-      required Refund? data}) {
+      {required String transactionUUID, required Refund? data}) {
     final $url = '/payments/$transactionUUID/refund';
-    final $headers = {
-      'Authorization': authorization,
-    };
-
     final $body = data;
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 }

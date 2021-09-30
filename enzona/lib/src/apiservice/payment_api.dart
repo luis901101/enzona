@@ -1,16 +1,13 @@
 
 import 'package:chopper/chopper.dart';
+import 'package:enzona/src/base_api/rest_api_service.dart';
 import 'package:enzona/src/entity/refund.dart';
-import 'package:http/http.dart' as http;
-import 'package:enzona/src/base_api/api_service.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/service/payment_service.dart';
 
-///Singleton
-PaymentAPI api = PaymentAPI();
-class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentService{
+class PaymentAPI extends RestAPIService<PaymentService, Payment, Payment> implements PaymentService{
 
-  PaymentAPI() : super(PaymentService.createInstance(), Payment());
+  PaymentAPI() : super(PaymentService.createInstance(), dataType: Payment(), errorType: Payment());
 
   ///Payments
   @override
@@ -27,18 +24,21 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     String? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
-    return parseResponseAsList(service.getPayments(
-      authorization: authorization ?? await getAuthorization(),
-      merchantUUID: merchantUUID,
-      pageSize: pageSize,
-      pageIndex: pageIndex,
-      merchantOp: merchantOp,
-      enzonaOp: enzonaOp,
-      status: status,
-      startDate: startDate,
-      endDate: endDate,
-      order: order,
-      filters: filters ?? {}));
+    return parsePaginationResponseAsList(
+      service.getPayments(
+        merchantUUID: merchantUUID,
+        pageSize: pageSize,
+        pageIndex: pageIndex,
+        merchantOp: merchantOp,
+        enzonaOp: enzonaOp,
+        status: status,
+        startDate: startDate,
+        endDate: endDate,
+        order: order,
+        filters: filters ?? {}
+      ),
+      'payments'
+    );
   }
 
   @override
@@ -46,9 +46,7 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     required String transactionUUID,
     String? authorization,
   }) async {
-    return parseResponse(service.getPayment(
-        transactionUUID: transactionUUID,
-        authorization: authorization ?? await getAuthorization()));
+    return parseResponse(service.getPayment(transactionUUID: transactionUUID));
   }
 
   @override
@@ -59,7 +57,6 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     return parseResponse(
       service.createPayment(
         data: data,
-        authorization: authorization ?? await getAuthorization(),
       ),
     );
   }
@@ -72,7 +69,6 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     return parseResponse(
       service.completePayment(
         transactionUUID: transactionUUID,
-        authorization: authorization ?? await getAuthorization(),
       ),
     );
   }
@@ -85,7 +81,6 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     return parseResponse(
       service.cancelPayment(
         transactionUUID: transactionUUID,
-        authorization: authorization ?? await getAuthorization(),
       ),
     );
   }
@@ -107,9 +102,8 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     String? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
-    return genericParseResponseAsList(
+    return genericParsePaginationResponseAsList(
       service.getRefunds(
-        authorization: authorization ?? await getAuthorization(),
         merchantUUID: merchantUUID,
         transactionUUID: transactionUUID,
         commerceRefundId: commerceRefundId,
@@ -122,6 +116,7 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
         filters: filters ?? {}
       ),
       Refund(),
+      'refunds'
     );
   }
 
@@ -133,7 +128,6 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
     return genericParseResponse(
       service.getPayment(
         transactionUUID: transactionUUID,
-        authorization: authorization ?? await getAuthorization()
       ),
       Refund()
     );
@@ -149,7 +143,6 @@ class PaymentAPI extends APIService<PaymentService, Payment> implements PaymentS
       service.refundPayment(
         transactionUUID: transactionUUID,
         data: data,
-        authorization: authorization ?? await getAuthorization(),
       ),
       Refund()
     );

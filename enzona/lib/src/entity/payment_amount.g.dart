@@ -8,7 +8,7 @@ part of 'payment_amount.dart';
 
 PaymentAmount _$PaymentAmountFromJson(Map<String, dynamic> json) =>
     PaymentAmount(
-      total: JsonUtils.doubleFromJsonString(json['total']),
+      total: JsonUtils.doubleFromJson(json['total']),
       details: json['details'] == null
           ? null
           : PaymentAmountDetails.fromJson(

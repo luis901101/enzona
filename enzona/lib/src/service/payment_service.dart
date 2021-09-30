@@ -1,6 +1,6 @@
 
 import 'package:chopper/chopper.dart';
-import 'package:enzona/src/base_api/api_service.dart';
+import 'package:enzona/src/base_api/rest_api_service.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/refund.dart';
 
@@ -11,9 +11,8 @@ abstract class PaymentService extends ChopperService {
   static PaymentService createInstance([ChopperClient? client]) => _$PaymentService(client);
 
   ///Payments
-  @Get(path: 'payments', headers: APIService.defaultHeaders)
+  @Get(path: 'payments', headers: RestAPIService.defaultHeaders)
   Future<Response> getPayments({
-    @Header(APIService.authorizationKey) String? authorization,
     @Query('merchant_uuid') dynamic merchantUUID,
     @Query('limit') int? pageSize,
     @Query('offset') int? pageIndex,
@@ -26,36 +25,31 @@ abstract class PaymentService extends ChopperService {
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
 
-  @Get(path: 'payments/{transaction_uuid}', headers: APIService.defaultHeaders)
+  @Get(path: 'payments/{transaction_uuid}', headers: RestAPIService.defaultHeaders)
   Future<Response> getPayment({
-    @Header(APIService.authorizationKey) required String authorization,
     @Path('transaction_uuid') required String transactionUUID,
   });
 
-  @Post(path: "payments", headers: APIService.defaultHeaders)
+  @Post(path: "payments", headers: RestAPIService.defaultHeaders)
   Future<Response> createPayment({
-    @Header(APIService.authorizationKey) required String authorization,
     @Body() required Payment data,
   });
 
-  @Post(path: "payments/{transaction_uuid}/complete", optionalBody: true, headers: APIService.defaultHeaders)
+  @Post(path: "payments/{transaction_uuid}/complete", optionalBody: true, headers: RestAPIService.defaultHeaders)
   Future<Response> completePayment({
-    @Header(APIService.authorizationKey) required String authorization,
     @Path('transaction_uuid') required String transactionUUID,
   });
 
-  @Post(path: "payments/{transaction_uuid}/cancel", optionalBody: true, headers: APIService.defaultHeaders)
+  @Post(path: "payments/{transaction_uuid}/cancel", optionalBody: true, headers: RestAPIService.defaultHeaders)
   Future<Response> cancelPayment({
-    @Header(APIService.authorizationKey) required String authorization,
     @Path('transaction_uuid') required String transactionUUID,
   });
 
 
 
   ///Refunds
-  @Get(path: 'payments/refunds', headers: APIService.defaultHeaders)
+  @Get(path: 'payments/refunds', headers: RestAPIService.defaultHeaders)
   Future<Response> getRefunds({
-    @Header(APIService.authorizationKey) String? authorization,
     @Query('merchant_uuid') dynamic merchantUUID,
     @Query('transaction_uuid') dynamic transactionUUID,
     @Query('commerce_refund_id') dynamic commerceRefundId,
@@ -68,15 +62,13 @@ abstract class PaymentService extends ChopperService {
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
 
-  @Get(path: 'payments/refund/{transaction_uuid}', headers: APIService.defaultHeaders)
+  @Get(path: 'payments/refund/{transaction_uuid}', headers: RestAPIService.defaultHeaders)
   Future<Response> getRefund({
-    @Header(APIService.authorizationKey) required String authorization,
     @Path('transaction_uuid') required String transactionUUID,
   });
 
-  @Post(path: "payments/{transaction_uuid}/refund", headers: APIService.defaultHeaders)
+  @Post(path: "payments/{transaction_uuid}/refund", headers: RestAPIService.defaultHeaders)
   Future<Response> refundPayment({
-    @Header(APIService.authorizationKey) required String authorization,
     @Path('transaction_uuid') required String transactionUUID,
     @Body() required Refund? data,
   });

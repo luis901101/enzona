@@ -8,9 +8,9 @@ part of 'payment_item.dart';
 
 PaymentItem _$PaymentItemFromJson(Map<String, dynamic> json) => PaymentItem(
       description: json['description'] as String?,
-      quantity: JsonUtils.intFromJsonString(json['quantity']),
-      price: JsonUtils.doubleFromJsonString(json['price']),
-      tax: JsonUtils.doubleFromJsonString(json['tax']),
+      quantity: JsonUtils.intFromJson(json['quantity']),
+      price: JsonUtils.doubleFromJson(json['price']),
+      tax: JsonUtils.doubleFromJson(json['tax']),
       name: json['name'] as String?,
     );
 

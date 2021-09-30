@@ -296,6 +296,13 @@
             </list>
           </value>
         </entry>
+        <entry key="oauth2">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/oauth2-2.0.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="package_config">
           <value>
             <list>
@@ -551,6 +558,7 @@
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/lib" />
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/mime-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/node_preamble-2.0.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/oauth2-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/package_config-2.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
       <root url="file://$PROJECT_DIR$/../../SDK/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1/lib" />

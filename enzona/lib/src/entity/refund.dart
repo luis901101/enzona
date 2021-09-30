@@ -2,6 +2,7 @@ import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/payment_amount.dart';
 import 'package:enzona/src/entity/payment_item.dart';
 import 'package:enzona/src/entity/payment_link.dart';
+import 'package:enzona/src/utils/json_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'refund.g.dart';
@@ -18,14 +19,13 @@ class Refund extends Payment {
   String? refundLastname;
   @JsonKey(name: "refund_avatar")
   String? refundAvatar;
-
   Refund(
       {this.transactionStatusCode,
       this.parentPaymentUUID,
       this.refundName,
       this.refundLastname,
       this.refundAvatar}) {
-    statusCode ??= transactionStatusCode; //
+    statusCode ??= transactionStatusCode;
   }
 
   @override
