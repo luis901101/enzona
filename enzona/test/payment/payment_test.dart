@@ -9,7 +9,7 @@ void main() async {
   await init();
 
   group('Payments', () {
-    test('Payments list', () async {
+    test('Get Payments list', () async {
       // expect(await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5), GenericMatcher(
       //   onMatches: (item, matchState) {
       //     if(item is Response) {
@@ -24,7 +24,7 @@ void main() async {
       expect(response.headers.containsKey(Pagination.totalCountHeader), true);
     });
 
-    group('Payment byId', () {
+    group('Get Payment byId', () {
       dynamic paymentId;
       setUp(() async {
         final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5);
@@ -33,7 +33,7 @@ void main() async {
         }
       });
 
-      test('Do Payment byId', () async {
+      test('Do Get Payment byId', () async {
         if(paymentId != null) {
           final response = await enzona.paymentAPI.getPayment(transactionUUID: paymentId);
           expect(response.isSuccessful, true);

@@ -18,7 +18,7 @@ class Pagination<T extends Jsonable> extends Jsonable<Pagination>{
 	@JsonKey(
 			toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
 	int? total;
-	@JsonKey(name: 'total_amount', toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson)
+	@JsonKey(name: 'total_amount', toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
 	double? totalAmount;
 
 	Pagination({

@@ -8,12 +8,16 @@ part of 'payment.dart';
 
 Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       transactionUUID: json['transaction_uuid'] as String?,
-      transactionCode: json['transaction_code'] as String?,
+      transactionCode: JsonUtils.intFromJson(json['transaction_code']),
       transactionSignature: json['transaction_signature'] as String?,
       transactionDenom: json['transaction_denom'] as String?,
       transactionDescription: json['transaction_description'] as String?,
-      transactionCreatedAt: json['transaction_created_at'] as String?,
-      transactionUpdatedAt: json['transaction_updated_at'] as String?,
+      transactionCreatedAt: json['transaction_created_at'] == null
+          ? null
+          : DateTime.parse(json['transaction_created_at'] as String),
+      transactionUpdatedAt: json['transaction_updated_at'] == null
+          ? null
+          : DateTime.parse(json['transaction_updated_at'] as String),
       leaf: json['leaf'] as String?,
       currency: json['currency'] as String?,
       createdAt: json['created_at'] == null
@@ -23,10 +27,10 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
           ? null
           : DateTime.parse(json['updated_at'] as String),
       status: json['status'] as String?,
-      statusCode: JsonUtils.stringFromJson(json['status_code']),
+      statusCode: JsonUtils.intFromJson(json['status_code']),
       statusDenom: json['status_denom'] as String?,
       description: json['description'] as String?,
-      invoiceNumber: json['invoice_number'] as String?,
+      invoiceNumber: JsonUtils.intFromJson(json['invoice_number']),
       merchantOpId: json['merchant_op_id'] as String?,
       terminalId: json['terminal_id'] as String?,
       amount: json['amount'] == null
@@ -38,7 +42,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       links: (json['links'] as List<dynamic>?)
           ?.map((e) => PaymentLink.fromJson(e as Map<String, dynamic>))
           .toList(),
-      commission: json['commission'] as String?,
+      commission: JsonUtils.doubleFromJson(json['commission']),
       returUrl: json['return_url'] as String?,
       cancelUrl: json['cancel_url'] as String?,
       buyerIdentityCode: json['buyer_identity_code'] as String?,
@@ -63,12 +67,15 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) {
   }
 
   writeNotNull('transaction_uuid', instance.transactionUUID);
-  writeNotNull('transaction_code', instance.transactionCode);
+  writeNotNull(
+      'transaction_code', JsonUtils.toJsonString(instance.transactionCode));
   writeNotNull('transaction_signature', instance.transactionSignature);
   writeNotNull('transaction_denom', instance.transactionDenom);
   writeNotNull('transaction_description', instance.transactionDescription);
-  writeNotNull('transaction_created_at', instance.transactionCreatedAt);
-  writeNotNull('transaction_updated_at', instance.transactionUpdatedAt);
+  writeNotNull('transaction_created_at',
+      instance.transactionCreatedAt?.toIso8601String());
+  writeNotNull('transaction_updated_at',
+      instance.transactionUpdatedAt?.toIso8601String());
   writeNotNull('leaf', instance.leaf);
   writeNotNull('currency', instance.currency);
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
@@ -77,13 +84,14 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) {
   writeNotNull('status_code', JsonUtils.toJsonString(instance.statusCode));
   writeNotNull('status_denom', instance.statusDenom);
   writeNotNull('description', instance.description);
-  writeNotNull('invoice_number', instance.invoiceNumber);
+  writeNotNull(
+      'invoice_number', JsonUtils.toJsonString(instance.invoiceNumber));
   writeNotNull('merchant_op_id', instance.merchantOpId);
   writeNotNull('terminal_id', instance.terminalId);
   writeNotNull('amount', instance.amount);
   writeNotNull('items', instance.items);
   writeNotNull('links', instance.links);
-  writeNotNull('commission', instance.commission);
+  writeNotNull('commission', JsonUtils.toJsonString(instance.commission));
   writeNotNull('return_url', instance.returUrl);
   writeNotNull('cancel_url', instance.cancelUrl);
   writeNotNull('buyer_identity_code', instance.buyerIdentityCode);
