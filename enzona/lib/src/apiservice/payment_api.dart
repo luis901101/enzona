@@ -1,13 +1,14 @@
 
 import 'package:chopper/chopper.dart';
 import 'package:enzona/src/base_api/rest_api_service.dart';
+import 'package:enzona/src/entity/error_response.dart';
 import 'package:enzona/src/entity/refund.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/service/payment_service.dart';
 
-class PaymentAPI extends RestAPIService<PaymentService, Payment, Payment> implements PaymentService{
+class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> implements PaymentService{
 
-  PaymentAPI() : super(PaymentService.createInstance(), dataType: Payment(), errorType: Payment());
+  PaymentAPI() : super(PaymentService.createInstance(), dataType: Payment(), errorType: ErrorResponse());
 
   ///Payments
   @override

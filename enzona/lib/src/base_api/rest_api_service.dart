@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chopper/chopper.dart';
 import 'package:enzona/src/base_api/base_authorization_api.dart';
 import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
@@ -35,10 +37,8 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
     Object? errorTypeResult = response.error;
     try {
       if (errorType is Jsonable) {
-        errorTypeResult = response.error is String
-            ? (errorType as Jsonable).fromJsonString(response.error?.toString())
-            : (errorType as Jsonable)
-            .fromJsonMap(response.error as Map<String, dynamic>?);
+        Map? error = response.error is String ? jsonDecode(response.error!.toString()) : response.error;
+        errorTypeResult = (errorType as Jsonable).fromJsonMap(error?['fault']);
       }
     } catch (e) {
       print(e);
