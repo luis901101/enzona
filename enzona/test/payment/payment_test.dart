@@ -17,15 +17,6 @@ void main() async {
 
   group('Payments retrieve', () {
     test('Get payments list', () async {
-      // expect(await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5), GenericMatcher(
-      //   onMatches: (item, matchState) {
-      //     if(item is Response) {
-      //       return item.isSuccessful;
-      //     }
-      //     return false;
-      //   }
-      // ));
-
       final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5);
       expect(response.isSuccessful, true);
       expect(response.headers.containsKey(Pagination.totalCountHeader), true);
@@ -56,12 +47,12 @@ void main() async {
       description: "This is an example payment description",
       currency: "CUP",
       amount: PaymentAmount(
-        total: 30.00,
+        total: 30,
         details: PaymentAmountDetails(
-          shipping: 0.00,
-          tax: 0.00,
-          discount: 0.00,
-          tip: 0.00,
+          shipping: 0,
+          tax: 0,
+          discount: 0,
+          tip: 0,
         ),
       ),
       items: [
@@ -69,8 +60,8 @@ void main() async {
           name: "Payment Item 1",
           description: "Double item",
           quantity: 2,
-          price: 15.00,
-          tax: 0.00,
+          price: 15,
+          tax: 0,
         )
       ],
       merchantOpId: "123456789123",
