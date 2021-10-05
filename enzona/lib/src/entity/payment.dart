@@ -11,7 +11,7 @@ part 'payment.g.dart';
 class Payment extends Jsonable<Payment>{
   @JsonKey(name: "transaction_uuid")
   String? transactionUUID;
-  @JsonKey(name: "transaction_code", toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: "transaction_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? transactionCode;
   @JsonKey(name: "transaction_signature")
   String? transactionSignature;
@@ -30,12 +30,12 @@ class Payment extends Jsonable<Payment>{
   @JsonKey(name: "updated_at")
   DateTime? updatedAt;
   String? status;
-  @JsonKey(name: "status_code", toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: "status_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? statusCode;
   @JsonKey(name: "status_denom")
   String? statusDenom;
   String? description;
-  @JsonKey(name: "invoice_number", toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: "invoice_number", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? invoiceNumber;
   @JsonKey(name: "merchant_op_id")
   String? merchantOpId;
@@ -44,10 +44,10 @@ class Payment extends Jsonable<Payment>{
   PaymentAmount? amount;
   List<PaymentItem>? items;
   List<PaymentLink>? links;
-  @JsonKey(toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? commission;
   @JsonKey(name: "return_url")
-  String? returUrl;
+  String? returnUrl;
   @JsonKey(name: "cancel_url")
   String? cancelUrl;
   @JsonKey(name: "buyer_identity_code")
@@ -90,7 +90,7 @@ class Payment extends Jsonable<Payment>{
     this.items,
     this.links,
     this.commission,
-    this.returUrl,
+    this.returnUrl,
     this.cancelUrl,
     this.buyerIdentityCode,
     this.merchantUUID,

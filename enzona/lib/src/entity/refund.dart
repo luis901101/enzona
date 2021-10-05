@@ -9,7 +9,7 @@ part 'refund.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Refund extends Payment {
-  @JsonKey(name: "transaction_status_code", toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: "transaction_status_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? transactionStatusCode;
   @JsonKey(name: "parent_payment_uuid")
   String? parentPaymentUUID;

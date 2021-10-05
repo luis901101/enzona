@@ -25,9 +25,11 @@ Map<String, dynamic> _$PaymentAmountDetailsToJson(
     }
   }
 
-  writeNotNull('shipping', JsonUtils.toJsonString(instance.shipping));
-  writeNotNull('tax', JsonUtils.toJsonString(instance.tax));
-  writeNotNull('discount', JsonUtils.toJsonString(instance.discount));
-  writeNotNull('tip', JsonUtils.toJsonString(instance.tip));
+  writeNotNull(
+      'shipping', JsonUtils.doubleToJsonString2Digits(instance.shipping));
+  writeNotNull('tax', JsonUtils.doubleToJsonString2Digits(instance.tax));
+  writeNotNull(
+      'discount', JsonUtils.doubleToJsonString2Digits(instance.discount));
+  writeNotNull('tip', JsonUtils.doubleToJsonString2Digits(instance.tip));
   return val;
 }

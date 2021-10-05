@@ -6,17 +6,13 @@ part 'payment_amount_details.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class PaymentAmountDetails extends Jsonable<PaymentAmountDetails>{
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? shipping;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? tax;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? discount;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? tip;
 
   PaymentAmountDetails({this.shipping, this.tax, this.discount, this.tip});

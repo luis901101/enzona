@@ -24,9 +24,9 @@ Map<String, dynamic> _$PaymentItemToJson(PaymentItem instance) {
   }
 
   writeNotNull('description', instance.description);
-  writeNotNull('quantity', JsonUtils.toJsonString(instance.quantity));
-  writeNotNull('price', JsonUtils.toJsonString(instance.price));
-  writeNotNull('tax', JsonUtils.toJsonString(instance.tax));
+  writeNotNull('quantity', instance.quantity);
+  writeNotNull('price', JsonUtils.doubleToJsonString2Digits(instance.price));
+  writeNotNull('tax', JsonUtils.doubleToJsonString2Digits(instance.tax));
   writeNotNull('name', instance.name);
   return val;
 }

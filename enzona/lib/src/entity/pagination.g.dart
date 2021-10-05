@@ -31,7 +31,8 @@ Map<String, dynamic> _$PaginationToJson<T extends Jsonable<Object>>(
   writeNotNull('prev', instance.prev);
   writeNotNull('next', instance.next);
   writeNotNull('last', instance.last);
-  writeNotNull('total', JsonUtils.toJsonString(instance.total));
-  writeNotNull('total_amount', JsonUtils.toJsonString(instance.totalAmount));
+  writeNotNull('total', instance.total);
+  writeNotNull('total_amount',
+      JsonUtils.doubleToJsonString2Digits(instance.totalAmount));
   return val;
 }

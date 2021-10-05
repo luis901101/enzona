@@ -7,14 +7,11 @@ part 'payment_item.g.dart';
 @JsonSerializable(includeIfNull: false)
 class PaymentItem extends Jsonable<PaymentItem>{
   String? description;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.intFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(fromJson: JsonUtils.intFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? quantity;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? price;
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? tax;
   String? name;
 

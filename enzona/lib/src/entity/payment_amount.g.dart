@@ -24,7 +24,7 @@ Map<String, dynamic> _$PaymentAmountToJson(PaymentAmount instance) {
     }
   }
 
-  writeNotNull('total', JsonUtils.toJsonString(instance.total));
+  writeNotNull('total', JsonUtils.doubleToJsonString2Digits(instance.total));
   writeNotNull('details', instance.details);
   return val;
 }

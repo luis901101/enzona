@@ -7,8 +7,7 @@ part 'payment_amount.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class PaymentAmount extends Jsonable<PaymentAmount>{
-  @JsonKey(
-      toJson: JsonUtils.toJsonString, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? total;
   PaymentAmountDetails? details;
 

@@ -43,7 +43,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
           ?.map((e) => PaymentLink.fromJson(e as Map<String, dynamic>))
           .toList(),
       commission: JsonUtils.doubleFromJson(json['commission']),
-      returUrl: json['return_url'] as String?,
+      returnUrl: json['return_url'] as String?,
       cancelUrl: json['cancel_url'] as String?,
       buyerIdentityCode: json['buyer_identity_code'] as String?,
       merchantUUID: json['merchant_uuid'] as String?,
@@ -67,8 +67,7 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) {
   }
 
   writeNotNull('transaction_uuid', instance.transactionUUID);
-  writeNotNull(
-      'transaction_code', JsonUtils.toJsonString(instance.transactionCode));
+  writeNotNull('transaction_code', instance.transactionCode);
   writeNotNull('transaction_signature', instance.transactionSignature);
   writeNotNull('transaction_denom', instance.transactionDenom);
   writeNotNull('transaction_description', instance.transactionDescription);
@@ -81,18 +80,18 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) {
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('updated_at', instance.updatedAt?.toIso8601String());
   writeNotNull('status', instance.status);
-  writeNotNull('status_code', JsonUtils.toJsonString(instance.statusCode));
+  writeNotNull('status_code', instance.statusCode);
   writeNotNull('status_denom', instance.statusDenom);
   writeNotNull('description', instance.description);
-  writeNotNull(
-      'invoice_number', JsonUtils.toJsonString(instance.invoiceNumber));
+  writeNotNull('invoice_number', instance.invoiceNumber);
   writeNotNull('merchant_op_id', instance.merchantOpId);
   writeNotNull('terminal_id', instance.terminalId);
   writeNotNull('amount', instance.amount);
   writeNotNull('items', instance.items);
   writeNotNull('links', instance.links);
-  writeNotNull('commission', JsonUtils.toJsonString(instance.commission));
-  writeNotNull('return_url', instance.returUrl);
+  writeNotNull(
+      'commission', JsonUtils.doubleToJsonString2Digits(instance.commission));
+  writeNotNull('return_url', instance.returnUrl);
   writeNotNull('cancel_url', instance.cancelUrl);
   writeNotNull('buyer_identity_code', instance.buyerIdentityCode);
   writeNotNull('merchant_uuid', instance.merchantUUID);
