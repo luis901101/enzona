@@ -46,10 +46,6 @@ class Payment extends Jsonable<Payment>{
   List<PaymentLink>? links;
   @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? commission;
-  @JsonKey(name: "return_url")
-  String? returnUrl;
-  @JsonKey(name: "cancel_url")
-  String? cancelUrl;
   @JsonKey(name: "buyer_identity_code")
   String? buyerIdentityCode;
   @JsonKey(name: "merchant_uuid")
@@ -90,8 +86,6 @@ class Payment extends Jsonable<Payment>{
     this.items,
     this.links,
     this.commission,
-    this.returnUrl,
-    this.cancelUrl,
     this.buyerIdentityCode,
     this.merchantUUID,
     this.merchantName,

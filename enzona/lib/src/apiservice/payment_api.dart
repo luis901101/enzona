@@ -2,6 +2,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:enzona/src/base_api/rest_api_service.dart';
 import 'package:enzona/src/entity/error_response.dart';
+import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/service/payment_service.dart';
@@ -38,7 +39,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
         order: order,
         filters: filters ?? {}
       ),
-      'payments'
+      dataListParam: 'payments'
     );
   }
 
@@ -52,7 +53,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
 
   @override
   Future<Response<Payment>> createPayment({
-    required Payment data,
+    required PaymentRequest data,
     String? authorization
   }) async {
     return parseResponse(
@@ -116,8 +117,8 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
         order: order,
         filters: filters ?? {}
       ),
-      Refund(),
-      'refunds'
+      dataType: Refund(),
+      dataListParam: 'refunds'
     );
   }
 
@@ -127,10 +128,10 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     String? authorization,
   }) async {
     return genericParseResponse(
-      service.getPayment(
+      service.getRefund(
         transactionUUID: transactionUUID,
       ),
-      Refund()
+      dataType: Refund()
     );
   }
 
@@ -145,7 +146,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
         transactionUUID: transactionUUID,
         data: data,
       ),
-      Refund()
+      dataType: Refund()
     );
   }
 }

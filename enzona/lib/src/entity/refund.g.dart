@@ -13,6 +13,10 @@ Refund _$RefundFromJson(Map<String, dynamic> json) => Refund(
       refundName: json['refund_name'] as String?,
       refundLastname: json['refund_lastname'] as String?,
       refundAvatar: json['refund_avatar'] as String?,
+      amount: json['amount'] == null
+          ? null
+          : PaymentAmount.fromJson(json['amount'] as Map<String, dynamic>),
+      description: json['description'] as String?,
     )
       ..transactionUUID = json['transaction_uuid'] as String?
       ..transactionCode = JsonUtils.intFromJson(json['transaction_code'])
@@ -36,13 +40,9 @@ Refund _$RefundFromJson(Map<String, dynamic> json) => Refund(
       ..status = json['status'] as String?
       ..statusCode = JsonUtils.intFromJson(json['status_code'])
       ..statusDenom = json['status_denom'] as String?
-      ..description = json['description'] as String?
       ..invoiceNumber = JsonUtils.intFromJson(json['invoice_number'])
       ..merchantOpId = json['merchant_op_id'] as String?
       ..terminalId = json['terminal_id'] as String?
-      ..amount = json['amount'] == null
-          ? null
-          : PaymentAmount.fromJson(json['amount'] as Map<String, dynamic>)
       ..items = (json['items'] as List<dynamic>?)
           ?.map((e) => PaymentItem.fromJson(e as Map<String, dynamic>))
           .toList()
@@ -50,8 +50,6 @@ Refund _$RefundFromJson(Map<String, dynamic> json) => Refund(
           ?.map((e) => PaymentLink.fromJson(e as Map<String, dynamic>))
           .toList()
       ..commission = JsonUtils.doubleFromJson(json['commission'])
-      ..returnUrl = json['return_url'] as String?
-      ..cancelUrl = json['cancel_url'] as String?
       ..buyerIdentityCode = json['buyer_identity_code'] as String?
       ..merchantUUID = json['merchant_uuid'] as String?
       ..merchantName = json['merchant_name'] as String?
@@ -97,8 +95,6 @@ Map<String, dynamic> _$RefundToJson(Refund instance) {
   writeNotNull('links', instance.links);
   writeNotNull(
       'commission', JsonUtils.doubleToJsonString2Digits(instance.commission));
-  writeNotNull('return_url', instance.returnUrl);
-  writeNotNull('cancel_url', instance.cancelUrl);
   writeNotNull('buyer_identity_code', instance.buyerIdentityCode);
   writeNotNull('merchant_uuid', instance.merchantUUID);
   writeNotNull('merchant_name', instance.merchantName);

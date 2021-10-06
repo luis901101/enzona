@@ -1,9 +1,11 @@
+import 'package:chopper/chopper.dart';
 import 'package:enzona/src/entity/error_response.dart';
 import 'package:enzona/src/entity/pagination.dart';
-import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/payment_amount.dart';
 import 'package:enzona/src/entity/payment_amount_details.dart';
 import 'package:enzona/src/entity/payment_item.dart';
+import 'package:enzona/src/entity/payment_request.dart';
+import 'package:enzona/src/entity/refund.dart';
 import 'package:enzona/src/enumerator/error_code.dart';
 import 'package:test/test.dart';
 
@@ -15,7 +17,7 @@ void main() async {
 
   await init();
 
-  group('Payments retrieve', () {
+  group('Retrieve payments use cases', () {
     test('Get payments list', () async {
       final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5);
       expect(response.isSuccessful, true);
@@ -43,8 +45,10 @@ void main() async {
   });
 
   group('Create payment use cases', () {
-    final payment = Payment(
-      description: "This is an example payment description",
+    final payment = PaymentRequest(
+      returnUrl: "http://url.to.return.after.payment.confirmation",
+      cancelUrl: "http://url.to.return.after.payment.cancellation",
+      merchantOpId: "999999999999",
       currency: "CUP",
       amount: PaymentAmount(
         total: 30,
@@ -64,11 +68,7 @@ void main() async {
           tax: 0,
         )
       ],
-      merchantOpId: "123456789123",
-      // invoiceNumber: 1,
-      // terminalId: "1",
-      returnUrl: "http://url.to.return.after.payment.confirmation",
-      cancelUrl: "http://url.to.return.after.payment.cancellation"
+      description: "This is an example payment description",
     );
 
     test('Create payment', () async {
@@ -102,5 +102,86 @@ void main() async {
       expect(response.isSuccessful, true);
       expect(response.body?.statusCode, ErrorCode.fallida);
     });
+  });
+
+  group('Refund payment use cases', () {
+    String? fullRefundPaymentId, partialRefundPaymentId;
+    String? refundId;
+
+    bool isResponseNoREDSAConnection(Response response) =>
+      !response.isSuccessful &&
+      response.error is ErrorResponse &&
+      (response.error as ErrorResponse).code == ErrorCode.noConexionREDSA;
+
+    setUp(() async {
+      final responsePayments = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 2, status: ErrorCode.aceptada);
+      if(responsePayments.body != null) {
+        if(responsePayments.body!.isNotEmpty) {
+          fullRefundPaymentId = responsePayments.body![0].transactionUUID;
+        }
+        if(responsePayments.body!.length > 1) {
+          partialRefundPaymentId = responsePayments.body![1].transactionUUID;
+        }
+      }
+
+      final responseRefunds = await enzona.paymentAPI.getRefunds(pageIndex: 0, pageSize: 1);
+      if(responseRefunds.body != null) {
+        if(responseRefunds.body!.isNotEmpty) {
+          refundId = responseRefunds.body![0].transactionUUID;
+        }
+      }
+    });
+
+    test('Get refunds list', () async {
+      final response = await enzona.paymentAPI.getRefunds(pageIndex: 0, pageSize: 5);
+      expect(response.isSuccessful, true);
+      expect(response.body, isNotNull);
+    },);
+
+    test('Get refund byId', () async {
+      if(refundId == null) {
+        markTestSkipped('Get refund byId skipped: No refund available to get by Id');
+        return;
+      }
+      final response = await enzona.paymentAPI.getRefund(transactionUUID: refundId!);
+      expect(response.isSuccessful, true);
+      expect(response.body, isNotNull);
+    },);
+
+    test('Full payment refund', () async {
+      if(fullRefundPaymentId == null) {
+        markTestSkipped('Full payment refund skipped: No payment completed available to fully refund');
+        return;
+      }
+      final response = await enzona.paymentAPI.refundPayment(transactionUUID: fullRefundPaymentId!);
+      if (isResponseNoREDSAConnection(response)) {
+        markTestSkipped('Full payment refund skipped: No REDSA connection');
+        return;
+      }
+      expect(response.isSuccessful, true);
+      expect(response.body, isNotNull);
+      expect(response.body?.statusCode, ErrorCode.devuelta);
+    }, timeout: Timeout(Duration(seconds: 60)));
+
+    test('Partial payment refund', () async {
+      if(partialRefundPaymentId == null) {
+        markTestSkipped('Partial payment refund skipped: No payment completed available to partially refund');
+        return;
+      }
+      final refund = Refund(
+        amount: PaymentAmount(
+          total: 1,
+        ),
+        description: 'This is a partial refund'
+      );
+      final response = await enzona.paymentAPI.refundPayment(transactionUUID: partialRefundPaymentId!, data: refund);
+      if (isResponseNoREDSAConnection(response)) {
+        markTestSkipped('Partial payment refund skipped: No REDSA connection');
+        return;
+      }
+      expect(response.isSuccessful, true);
+      expect(response.body, isNotNull);
+      expect(response.body?.statusCode, ErrorCode.devuelta);
+    }, timeout: Timeout(Duration(seconds: 60)));
   });
 }

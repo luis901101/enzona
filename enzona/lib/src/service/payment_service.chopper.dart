@@ -53,7 +53,7 @@ class _$PaymentService extends PaymentService {
   }
 
   @override
-  Future<Response<dynamic>> createPayment({required Payment data}) {
+  Future<Response<dynamic>> createPayment({required PaymentRequest data}) {
     final $url = '/payments';
     final $body = data;
     final $request = Request('POST', $url, client.baseUrl, body: $body);

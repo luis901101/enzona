@@ -1,7 +1,7 @@
 
 import 'package:chopper/chopper.dart';
 import 'package:enzona/src/base_api/rest_api_service.dart';
-import 'package:enzona/src/entity/payment.dart';
+import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
 
 part 'payment_service.chopper.dart';
@@ -32,7 +32,7 @@ abstract class PaymentService extends ChopperService {
 
   @Post(path: "payments", headers: RestAPIService.defaultHeaders)
   Future<Response> createPayment({
-    @Body() required Payment data,
+    @Body() required PaymentRequest data,
   });
 
   @Post(path: "payments/{transaction_uuid}/complete", optionalBody: true, headers: RestAPIService.defaultHeaders)

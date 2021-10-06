@@ -13,7 +13,7 @@ class PaymentItem extends Jsonable<PaymentItem>{
   double? price;
   @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson) //toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? tax;
-  String? name;
+  dynamic name; //Fixme: This field is a String when used in Payments and a List<String> when used in Refunds :( This file should always be String and the field for List<String> should be called "names"
 
   PaymentItem(
       {this.description, this.quantity, this.price, this.tax, this.name});

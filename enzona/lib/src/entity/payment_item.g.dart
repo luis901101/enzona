@@ -11,7 +11,7 @@ PaymentItem _$PaymentItemFromJson(Map<String, dynamic> json) => PaymentItem(
       quantity: JsonUtils.intFromJson(json['quantity']),
       price: JsonUtils.doubleFromJson(json['price']),
       tax: JsonUtils.doubleFromJson(json['tax']),
-      name: json['name'] as String?,
+      name: json['name'],
     );
 
 Map<String, dynamic> _$PaymentItemToJson(PaymentItem instance) {

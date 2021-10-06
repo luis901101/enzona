@@ -60,23 +60,22 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
     return response;
   }
 
-  Future<Response<DataType>> parseResponse(
-      Future<Response> futureResponse) async {
-    return genericParseResponse(futureResponse, dataType);
+  Future<Response<DataType>> parseResponse(Future<Response> futureResponse) async {
+    return genericParseResponse(futureResponse, dataType: dataType);
   }
 
   Future<Response<List<DataType>>> parseResponseAsList(
       Future<Response> futureResponse) async {
-    return genericParseResponseAsList(futureResponse, dataType);
+    return genericParseResponseAsList(futureResponse, dataType: dataType);
   }
 
   Future<Response<List<DataType>>> parsePaginationResponseAsList(
-      Future<Response> futureResponse, String dataListParam) async {
-    return genericParsePaginationResponseAsList(futureResponse, dataType, dataListParam);
+      Future<Response> futureResponse, {required String dataListParam}) async {
+    return genericParsePaginationResponseAsList(futureResponse, dataType: dataType, dataListParam: dataListParam);
   }
 
   Future<Response<DataTypeGeneric>> genericParseResponse<DataTypeGeneric extends Jsonable?>(
-      Future<Response> futureResponse, DataTypeGeneric? dataType) async {
+      Future<Response> futureResponse, {DataTypeGeneric? dataType}) async {
     Response response = await getSaveResponse(futureResponse);
     try {
       if (dataType != null) {
@@ -108,7 +107,7 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
 
   Future<Response<List<DataTypeGeneric>>>
       genericParseResponseAsList<DataTypeGeneric extends Jsonable?>(
-          Future<Response> futureResponse, DataTypeGeneric? dataType) async {
+          Future<Response> futureResponse, {DataTypeGeneric? dataType}) async {
     Response response = await getSaveResponse(futureResponse);
     try {
       if (dataType != null) {
@@ -140,7 +139,7 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
 
   Future<Response<List<DataTypeGeneric>>>
       genericParsePaginationResponseAsList<DataTypeGeneric extends Jsonable?>(
-          Future<Response> futureResponse, DataTypeGeneric? dataType, String dataListParam) async {
+          Future<Response> futureResponse, {DataTypeGeneric? dataType, required String dataListParam}) async {
     Response response = await getSaveResponse(futureResponse);
     try {
       if (dataType != null) {
