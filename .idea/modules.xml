@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/enzona/enzona.iml" filepath="$PROJECT_DIR$/enzona/enzona.iml" />
+      <module fileurl="file://$PROJECT_DIR$/enzona_flutter/enzona_flutter.iml" filepath="$PROJECT_DIR$/enzona_flutter/enzona_flutter.iml" />
     </modules>
   </component>
 </project>

@@ -59,7 +59,9 @@ Refund _$RefundFromJson(Map<String, dynamic> json) => Refund(
       ..username = json['username'] as String?
       ..name = json['name'] as String?
       ..lastname = json['lastname'] as String?
-      ..avatar = json['avatar'] as String?;
+      ..avatar = json['avatar'] as String?
+      ..returnUrl = json['return_url'] as String?
+      ..cancelUrl = json['cancel_url'] as String?;
 
 Map<String, dynamic> _$RefundToJson(Refund instance) {
   final val = <String, dynamic>{};
@@ -105,6 +107,8 @@ Map<String, dynamic> _$RefundToJson(Refund instance) {
   writeNotNull('name', instance.name);
   writeNotNull('lastname', instance.lastname);
   writeNotNull('avatar', instance.avatar);
+  writeNotNull('return_url', instance.returnUrl);
+  writeNotNull('cancel_url', instance.cancelUrl);
   writeNotNull('transaction_status_code', instance.transactionStatusCode);
   writeNotNull('parent_payment_uuid', instance.parentPaymentUUID);
   writeNotNull('refund_name', instance.refundName);

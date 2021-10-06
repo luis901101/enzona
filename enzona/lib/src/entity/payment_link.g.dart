@@ -9,7 +9,7 @@ part of 'payment_link.dart';
 PaymentLink _$PaymentLinkFromJson(Map<String, dynamic> json) => PaymentLink(
       rel: json['rel'] as String?,
       method: json['method'] as String?,
-      href: json['href'] as String?,
+      url: json['href'] as String?,
     );
 
 Map<String, dynamic> _$PaymentLinkToJson(PaymentLink instance) {
@@ -23,6 +23,6 @@ Map<String, dynamic> _$PaymentLinkToJson(PaymentLink instance) {
 
   writeNotNull('rel', instance.rel);
   writeNotNull('method', instance.method);
-  writeNotNull('href', instance.href);
+  writeNotNull('href', instance.url);
   return val;
 }

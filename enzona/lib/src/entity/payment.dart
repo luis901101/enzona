@@ -62,6 +62,13 @@ class Payment extends Jsonable<Payment>{
   String? name;
   String? lastname;
   String? avatar;
+  @JsonKey(name: "return_url")
+  String? returnUrl;
+  @JsonKey(name: "cancel_url")
+  String? cancelUrl;
+
+  @JsonKey(ignore: true)
+  String? _confirmationUrl;
 
   Payment({
     this.transactionUUID,
@@ -95,7 +102,22 @@ class Payment extends Jsonable<Payment>{
     this.username,
     this.name,
     this.lastname,
-    this.avatar});
+    this.avatar,
+    this.returnUrl,
+    this.cancelUrl,
+  });
+
+  String? get confirmationUrl {
+    if(_confirmationUrl == null && links != null) {
+      for(var link in links!) {
+        if(link.isConfirm) {
+          _confirmationUrl = link.url;
+          break;
+        }
+      }
+    }
+    return _confirmationUrl;
+  }
 
   @override
   Map<String, dynamic> toJson() => _$PaymentToJson(this);

@@ -100,7 +100,7 @@ Map<String, dynamic> _$PaymentRequestToJson(PaymentRequest instance) {
   writeNotNull('name', instance.name);
   writeNotNull('lastname', instance.lastname);
   writeNotNull('avatar', instance.avatar);
-  val['return_url'] = instance.returnUrl;
-  val['cancel_url'] = instance.cancelUrl;
+  writeNotNull('return_url', instance.returnUrl);
+  writeNotNull('cancel_url', instance.cancelUrl);
   return val;
 }

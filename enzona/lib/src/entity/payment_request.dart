@@ -10,20 +10,18 @@ part 'payment_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class PaymentRequest extends Payment {
-  @JsonKey(name: "return_url")
-  String returnUrl;
-  @JsonKey(name: "cancel_url")
-  String cancelUrl;
 
   PaymentRequest({
-    required this.returnUrl,
-    required this.cancelUrl,
+    required String returnUrl,
+    required String cancelUrl,
     String? merchantOpId,
     required String currency,
     required PaymentAmount amount,
     List<PaymentItem>? items,
     String? description,
   }) : super(
+    returnUrl: returnUrl,
+    cancelUrl: cancelUrl,
     description: description,
     currency: currency,
     amount: amount,

@@ -53,6 +53,8 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       name: json['name'] as String?,
       lastname: json['lastname'] as String?,
       avatar: json['avatar'] as String?,
+      returnUrl: json['return_url'] as String?,
+      cancelUrl: json['cancel_url'] as String?,
     );
 
 Map<String, dynamic> _$PaymentToJson(Payment instance) {
@@ -99,5 +101,7 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) {
   writeNotNull('name', instance.name);
   writeNotNull('lastname', instance.lastname);
   writeNotNull('avatar', instance.avatar);
+  writeNotNull('return_url', instance.returnUrl);
+  writeNotNull('cancel_url', instance.cancelUrl);
   return val;
 }
