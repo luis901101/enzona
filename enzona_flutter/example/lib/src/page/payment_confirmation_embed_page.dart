@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:chopper/chopper.dart';
 import 'package:enzona_flutter/enzona_flutter.dart';
 import 'package:example/main.dart';
-import 'package:example/src/utils/modal_progress_hud.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -100,69 +99,79 @@ class _PaymentConfirmationEmbedPageState extends State<PaymentConfirmationEmbedP
   Widget get paymentConfirmationView {
 
     if(isLoading) {
-      return Column(
-      children: const [
-        Text('Creando el pago, espere un momento por favor.'),
-        SizedBox(height: 8),
-        CircularProgressIndicator(),
-      ],
-    );
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+        children: const [
+          Text('Creando el pago, espere un momento por favor.'),
+          SizedBox(height: 8),
+          CircularProgressIndicator(),
+        ],
+    ),
+      );
     }
 
     if(!(response?.isSuccessful ?? false) || payment == null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '''
-            HUBO UN PROBLEMA AL INTENTAR CREAR EL PAGO.
-            Verifique que está recibiendo correctamente el consumerKey y el consumerSecret desde String.fromEnvironment
-            ${errorMessage ?? ''} 
-            ''',
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          ElevatedButton(
-            child: const Text('Reintentar'),
-            onPressed: createPayment,
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '''
+              HUBO UN PROBLEMA AL INTENTAR CREAR EL PAGO.
+              Verifique que está recibiendo correctamente el consumerKey y el consumerSecret desde String.fromEnvironment
+              ${errorMessage ?? ''} 
+              ''',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              child: const Text('Reintentar'),
+              onPressed: createPayment,
+            ),
+          ],
+        ),
       );
     }
 
     if(payment?.statusCode != StatusCode.pendiente) {
       return const Center(
-        child: Text(
-          '''
-          EL PAGO FUE CONFIRMADO SATISFACTORIAMENTE POR EL CLIENTE.
-          ''',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18),
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'EL PAGO FUE CONFIRMADO SATISFACTORIAMENTE POR EL CLIENTE.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18),
+          ),
         ),
       );
     }
 
     if(paymentCancelled) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            '''
-            EL PAGO FUE CANCELADO POR EL CLIENTE.
-            ''',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          ElevatedButton(
-            child: const Text('Crear otro pago'),
-            onPressed: createPayment,
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'EL PAGO FUE CANCELADO POR EL CLIENTE.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              child: const Text('Crear otro pago'),
+              onPressed: createPayment,
+            ),
+          ],
+        ),
       );
     }
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2,
+      height: MediaQuery.of(context).size.height * 70 / 100,
       child: PaymentConfirmationView(
         payment: payment!,
         onPaymentConfirmed: (payment) {
@@ -181,37 +190,34 @@ class _PaymentConfirmationEmbedPageState extends State<PaymentConfirmationEmbedP
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: /*isLoading*/ false,
-      opacity: 0.7,
-      color: Colors.black,
-      progressIndicator: const CircularProgressIndicator(),
-      dismissible: false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Confirmación de pago embebida'),
-        ),
-        body: Center(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FlutterLogo(
-                    size: 100,
-                    style: FlutterLogoStyle.stacked,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Confirmación de pago embebida'),
+      ),
+      body: Center(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const FlutterLogo(
+                  size: 100,
+                  style: FlutterLogoStyle.stacked,
+                ),
+                const SizedBox(height: 16),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     'Este es un ejemplo de como usar el Widget de confirmación de pago embebido en un WidgetTree',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  paymentConfirmationView,
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                paymentConfirmationView,
+              ],
             ),
           ),
         ),
