@@ -1,6 +1,10 @@
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:enzona/enzona.dart';
 
@@ -29,53 +33,86 @@ class PaymentConfirmationView extends StatefulWidget {
 
 class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
 
-  bool isLoading = false;
-  WebViewXController? controller;
+  bool isLoading = true;
+  WebViewXController? webViewXController;
+  InAppWebViewController? inAppWebViewControllerController;
 
   String get confirmationUrl => widget.payment.confirmationUrl ?? 'about:blank';
   String get returnUrl => widget.payment.returnUrl ?? 'about:blank';
   String get cancelUrl => widget.payment.cancelUrl ?? 'about:blank';
 
-  Widget get webView => WebViewX(
-    width: double.infinity,
-    height: double.infinity,
-    initialContent: confirmationUrl,
-    initialSourceType: SourceType.url,
-    javascriptMode: JavascriptMode.unrestricted,
-    // gestureNavigationEnabled: true,
-    onWebViewCreated: (controller) {
-      this.controller = controller;
-    },
-    navigationDelegate: (request) async {
-      if(!isLoading) {
-        setState(() {
-          isLoading = true;
-        });
-      }
-      String url = request.content.source;
-      if (url.startsWith(returnUrl)) {
-        widget.onPaymentConfirmed(
-          widget.payment
-            ..statusCode = StatusCode.confirmada
-            ..statusDenom = 'Confirmada'
-            ..updatedAt = DateTime.now(),
-        );
-        return NavigationDecision.prevent;
-      }
-      if(url.startsWith(cancelUrl)) {
-        widget.onPaymentCancelled(widget.payment); //No Payment modification gets done
-        return NavigationDecision.prevent;
-      }
-      return NavigationDecision.navigate;
-    },
-    onPageFinished: (url) {
-      if(isLoading) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    },
-  );
+  Widget get webView {
+    if(kIsWeb || Platform.isIOS) {
+      return WebViewX(
+        width: double.infinity,
+        height: double.infinity,
+        initialContent: confirmationUrl,
+        initialSourceType: SourceType.url,
+        javascriptMode: JavascriptMode.unrestricted,
+        // gestureNavigationEnabled: true,
+        onWebViewCreated: (controller) {
+          webViewXController = controller;
+        },
+        navigationDelegate: (request) async =>
+          onNavigateTo(request.content.source) ?
+            NavigationDecision.navigate :
+              NavigationDecision.prevent,
+        onPageFinished: (url) => hideLoading(),
+      );
+    }
+    return InAppWebView(
+      initialOptions: InAppWebViewGroupOptions(
+        crossPlatform: InAppWebViewOptions(
+          useShouldOverrideUrlLoading: true,
+        ),
+      ),
+      initialUrlRequest: URLRequest(url: Uri.parse(confirmationUrl)),
+      onReceivedServerTrustAuthRequest: (controller, challenge) async {
+        return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);
+      },
+      onWebViewCreated: (controller) {
+        inAppWebViewControllerController = controller;
+      },
+      shouldOverrideUrlLoading: (controller, navigationAction) async {
+        final url = navigationAction.request.url?.toString() ?? '';
+        return onNavigateTo(url) ?
+          NavigationActionPolicy.ALLOW :
+          NavigationActionPolicy.CANCEL;
+      },
+      onLoadStart: (controller, url) async => showLoading(),
+      onLoadStop: (controller, url) async => hideLoading(),
+      onLoadError: (controller, url, code, message) => hideLoading(),
+    );
+  }
+
+  void showLoading() {
+    if(!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+    }
+  }
+
+  void hideLoading() {
+    if(isLoading) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void onConfirmed() {
+    widget.onPaymentConfirmed(
+      widget.payment
+        ..statusCode = StatusCode.confirmada
+        ..statusDenom = 'Confirmada'
+        ..updatedAt = DateTime.now(),
+    );
+  }
+
+  void onCancelled() {
+    widget.onPaymentCancelled(widget.payment); //No Payment modification gets done
+  }
 
   Widget iconButton({
     required IconData iconData,
@@ -112,19 +149,47 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
           children: [
             iconButton(
               iconData: Icons.arrow_back,
-              onPressed: () => controller?.goBack(),
+              onPressed: () => controllerGoBack(),
             ),
             iconButton(
               iconData: Icons.refresh,
-              onPressed: () => controller?.reload(),
+              onPressed: () => controllerReload(),
             ),
             iconButton(
               iconData: Icons.arrow_forward,
-              onPressed: () => controller?.goForward(),
+              onPressed: () => controllerGoForward(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool onNavigateTo(String url) {
+    showLoading();
+    if (url.startsWith(returnUrl)) {
+      onConfirmed();
+      return false;
+    }
+    if(url.startsWith(cancelUrl)) {
+      onCancelled();
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> controllerReload() async {
+    webViewXController?.reload();
+    inAppWebViewControllerController?.reload();
+  }
+
+  Future<void> controllerGoForward() async {
+    webViewXController?.goForward();
+    inAppWebViewControllerController?.goForward();
+  }
+
+  Future<void> controllerGoBack() async {
+    webViewXController?.goBack();
+    inAppWebViewControllerController?.goBack();
   }
 }

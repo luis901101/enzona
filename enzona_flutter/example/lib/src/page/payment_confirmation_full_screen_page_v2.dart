@@ -10,16 +10,17 @@ class PaymentConfirmationFullScreenPageV2 extends StatefulWidget {
   const PaymentConfirmationFullScreenPageV2({Key? key}) : super(key: key);
 
   @override
-  State createState() => PaymentConfirmationFullScreenPageV2State();
+  State createState() => PaymentConfirmationFullScreenPageV2State<PaymentConfirmationFullScreenPageV2>();
 }
 
-class PaymentConfirmationFullScreenPageV2State extends PaymentConfirmationFullScreenPageV1State {
+class PaymentConfirmationFullScreenPageV2State<S extends StatefulWidget> extends PaymentConfirmationFullScreenPageV1State<S> {
 
   @override
   Future<void> launchPaymentConfirmationScreen() async {
     Navigator.push(context,
       MaterialPageRoute(builder: (context) =>
         PaymentConfirmationScreen(
+          title: 'Confirmar pago variante 2',
           payment: payment!,
           onPaymentConfirmed: onPaymentChanged,
           onPaymentCancelled: onPaymentChanged,

@@ -113,9 +113,9 @@ abstract class BasePageState<S extends StatefulWidget> extends State<S> {
           children: [
             Text(
               '''
-              HUBO UN PROBLEMA AL INTENTAR CREAR EL PAGO.
-              Verifique que está recibiendo correctamente el consumerKey y el consumerSecret desde String.fromEnvironment
-              ${errorMessage ?? ''} 
+HUBO UN PROBLEMA AL INTENTAR CREAR EL PAGO.
+Verifique que está recibiendo correctamente el consumerKey y el consumerSecret desde String.fromEnvironment
+${errorMessage ?? ''} 
               ''',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),

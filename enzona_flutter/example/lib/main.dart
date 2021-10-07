@@ -1,5 +1,6 @@
 import 'package:example/src/page/payment_confirmation_embed_page.dart';
 import 'package:example/src/page/payment_confirmation_full_screen_page_v1.dart';
+import 'package:example/src/page/payment_confirmation_full_screen_page_v2.dart';
 import 'package:flutter/material.dart';
 
 /// Make sure to put all of this environment variables in your
@@ -82,7 +83,7 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Confirmar pago desde pantalla de confirmación (Variante 2)'),
               subtitle: const Text('Recomendado cuando lo que se necesita es que el proceso de confirmación se realize en una pantalla únicamente dedicada a ello. El resultado de confirmación del pago se obtiene usando los callbacks onPaymentConfirmed(payment) y onPaymentCancelled(payment).'),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV1()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV2()));
               },
             ),
           ],

@@ -4,6 +4,9 @@ A new Flutter project.
 
 ## Getting Started
 
+-------------------------Como mínimo Android sdk 19 o 20 en dependencia del modo que se use para el WebView-----------------------
+Se maneja el certificado no válido
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

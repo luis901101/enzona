@@ -96,11 +96,12 @@ class CustomOauth2Client extends http.BaseClient {
     }
   }
 
-  factory CustomOauth2Client.fromOauth2Client(Client oauth2Client) =>
+  factory CustomOauth2Client.fromOauth2Client(Client oauth2Client, {http.Client? httpClient}) =>
     CustomOauth2Client(
       oauth2Client.credentials,
       identifier: oauth2Client.identifier,
       secret: oauth2Client.secret,
+      httpClient: httpClient,
     );
 
   /// always return true because credentials refresh will be managed anyway
