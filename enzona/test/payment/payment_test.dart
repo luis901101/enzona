@@ -6,7 +6,7 @@ import 'package:enzona/src/entity/payment_amount_details.dart';
 import 'package:enzona/src/entity/payment_item.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
-import 'package:enzona/src/enumerator/error_code.dart';
+import 'package:enzona/src/enumerator/status_code.dart';
 import 'package:test/test.dart';
 
 import '../base_tests.dart';
@@ -48,7 +48,7 @@ void main() async {
     final payment = PaymentRequest(
       returnUrl: "http://url.to.return.after.payment.confirmation",
       cancelUrl: "http://url.to.return.after.payment.cancellation",
-      merchantOpId: "999999999999",
+      merchantOpId: PaymentRequest.generateRandomMerchantOpId(),
       currency: "CUP",
       amount: PaymentAmount(
         total: 30,
@@ -75,7 +75,7 @@ void main() async {
       final response = await enzona.paymentAPI.createPayment(data: payment);
       expect(response.isSuccessful, true);
       expect(response.body, isNotNull);
-      expect(response.body?.statusCode, ErrorCode.pendiente);
+      expect(response.body?.statusCode, StatusCode.pendiente);
     });
 
     test('Create and complete payment', () async {
@@ -88,7 +88,7 @@ void main() async {
       expect(response.isSuccessful, false);
       expect(response.error, GenericMatcher(
         onMatches: (item, matchState) =>
-          item is ErrorResponse && item.code == ErrorCode.transaccionNoConfirmada ? true : false
+          item is ErrorResponse && item.code == StatusCode.transaccionNoConfirmada ? true : false
       ));
     });
 
@@ -100,7 +100,7 @@ void main() async {
       expect(createdPayment.transactionUUID, isNotNull);
       response = await enzona.paymentAPI.cancelPayment(transactionUUID: createdPayment.transactionUUID!);
       expect(response.isSuccessful, true);
-      expect(response.body?.statusCode, ErrorCode.fallida);
+      expect(response.body?.statusCode, StatusCode.fallida);
     });
   });
 
@@ -111,10 +111,10 @@ void main() async {
     bool isResponseNoREDSAConnection(Response response) =>
       !response.isSuccessful &&
       response.error is ErrorResponse &&
-      (response.error as ErrorResponse).code == ErrorCode.noConexionREDSA;
+      (response.error as ErrorResponse).code == StatusCode.noConexionREDSA;
 
     setUp(() async {
-      final responsePayments = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 2, status: ErrorCode.aceptada);
+      final responsePayments = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 2, status: StatusCode.aceptada);
       if(responsePayments.body != null) {
         if(responsePayments.body!.isNotEmpty) {
           fullRefundPaymentId = responsePayments.body![0].transactionUUID;
@@ -160,7 +160,7 @@ void main() async {
       }
       expect(response.isSuccessful, true);
       expect(response.body, isNotNull);
-      expect(response.body?.statusCode, ErrorCode.devuelta);
+      expect(response.body?.statusCode, StatusCode.devuelta);
     }, timeout: Timeout(Duration(seconds: 60)));
 
     test('Partial payment refund', () async {
@@ -181,7 +181,7 @@ void main() async {
       }
       expect(response.isSuccessful, true);
       expect(response.body, isNotNull);
-      expect(response.body?.statusCode, ErrorCode.devuelta);
+      expect(response.body?.statusCode, StatusCode.devuelta);
     }, timeout: Timeout(Duration(seconds: 60)));
   });
 }

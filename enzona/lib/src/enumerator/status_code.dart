@@ -1,5 +1,5 @@
 
-class ErrorCode {
+class StatusCode {
 
   ///Codigo de estados generales y denominaciones
   static const aceptada = 1111; //Transaccion Aceptada

@@ -16,7 +16,7 @@ export 'package:enzona/src/entity/payment_link.dart';
 export 'package:enzona/src/entity/payment_request.dart';
 export 'package:enzona/src/entity/refund.dart';
 
-export 'package:enzona/src/enumerator/error_code.dart';
+export 'package:enzona/src/enumerator/status_code.dart';
 
 class Enzona {
   final String apiUrl;

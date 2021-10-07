@@ -14,7 +14,7 @@ class PaymentRequest extends Payment {
   PaymentRequest({
     required String returnUrl,
     required String cancelUrl,
-    String? merchantOpId,
+    required String merchantOpId,
     required String currency,
     required PaymentAmount amount,
     List<PaymentItem>? items,
@@ -28,6 +28,8 @@ class PaymentRequest extends Payment {
     items: items,
     merchantOpId: merchantOpId,
   );
+
+  static String generateRandomMerchantOpId() => '${DateTime.now().millisecondsSinceEpoch % 1000000000000}';
 
   @override
   Map<String, dynamic> toJson() => _$PaymentRequestToJson(this);

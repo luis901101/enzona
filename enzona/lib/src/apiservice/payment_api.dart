@@ -56,11 +56,15 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     required PaymentRequest data,
     String? authorization
   }) async {
-    return parseResponse(
+    final response = await parseResponse(
       service.createPayment(
         data: data,
       ),
     );
+    if(response.isSuccessful && response.body != null) {
+      response.body!..returnUrl = data.returnUrl..cancelUrl = data.cancelUrl;
+    }
+    return response;
   }
 
   @override

@@ -37,6 +37,9 @@ class Payment extends Jsonable<Payment>{
   String? description;
   @JsonKey(name: "invoice_number", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? invoiceNumber;
+  /// This is a number to identify the operation by a merchant.
+  /// Useful for merchant business logic implementation to identify payments
+  /// It must have exactly 12 digits
   @JsonKey(name: "merchant_op_id")
   String? merchantOpId;
   @JsonKey(name: "terminal_id")

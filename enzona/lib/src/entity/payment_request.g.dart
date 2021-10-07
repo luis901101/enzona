@@ -10,7 +10,7 @@ PaymentRequest _$PaymentRequestFromJson(Map<String, dynamic> json) =>
     PaymentRequest(
       returnUrl: json['return_url'] as String,
       cancelUrl: json['cancel_url'] as String,
-      merchantOpId: json['merchant_op_id'] as String?,
+      merchantOpId: json['merchant_op_id'] as String,
       currency: json['currency'] as String,
       amount: PaymentAmount.fromJson(json['amount'] as Map<String, dynamic>),
       items: (json['items'] as List<dynamic>?)
