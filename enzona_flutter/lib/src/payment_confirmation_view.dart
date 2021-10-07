@@ -1,13 +1,20 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:webviewx/webviewx.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 import 'package:enzona/enzona.dart';
 
 class PaymentConfirmationView extends StatelessWidget {
 
   final Payment payment;
-  final VoidCallback onPaymentConfirmed;
-  final VoidCallback onPaymentCancelled;
+
+  /// This function will be called when client confirms the payment.
+  /// It will receive the updated Payment
+  final ValueChanged<Payment> onPaymentConfirmed;
+
+  /// This function will be called when client cancels the payment.
+  /// It will receive the updated Payment
+  final ValueChanged<Payment> onPaymentCancelled;
 
   const PaymentConfirmationView({
     Key? key,
@@ -27,9 +34,24 @@ class PaymentConfirmationView extends StatelessWidget {
       height: double.infinity,
       initialContent: confirmationUrl,
       initialSourceType: SourceType.url,
-      onPageStarted: (url) {
-        if(url.startsWith(returnUrl)) return onPaymentConfirmed();
-        if(url.startsWith(cancelUrl)) return onPaymentCancelled();
+      javascriptMode: JavascriptMode.unrestricted,
+      // gestureNavigationEnabled: true,
+      navigationDelegate: (request) async {
+        String url = request.content.source;
+        if (url.startsWith(returnUrl)) {
+          onPaymentConfirmed(
+            payment
+              ..statusCode = StatusCode.confirmada
+              ..statusDenom = 'Confirmada'
+              ..updatedAt = DateTime.now(),
+          );
+          return NavigationDecision.prevent;
+        }
+        if(url.startsWith(cancelUrl)) {
+          onPaymentCancelled(payment); //No Payment modification gets done
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
       },
     );
   }
