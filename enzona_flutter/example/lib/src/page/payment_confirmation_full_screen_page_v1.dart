@@ -6,34 +6,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class PaymentConfirmationFullScreenPage extends StatefulWidget {
-  const PaymentConfirmationFullScreenPage({Key? key}) : super(key: key);
+class PaymentConfirmationFullScreenPageV1 extends StatefulWidget {
+  const PaymentConfirmationFullScreenPageV1({Key? key}) : super(key: key);
 
   @override
-  State<PaymentConfirmationFullScreenPage> createState() => PaymentConfirmationFullScreenPageState();
+  State createState() => PaymentConfirmationFullScreenPageV1State();
 }
 
-class PaymentConfirmationFullScreenPageState extends BasePageState<PaymentConfirmationFullScreenPage> {
+class PaymentConfirmationFullScreenPageV1State extends BasePageState<PaymentConfirmationFullScreenPageV1> {
 
   @override
   Widget paymentConfirmationCustomView() {
-
-    return Column(
-      children: [
-        if(payment?.statusCode != StatusCode.confirmada)
-        ElevatedButton(
-          child: const Text('Confirmar pago ahora'),
-          onPressed: confirmPayment,
-        ),
-      ],
-    );
+    return payment?.statusCode != StatusCode.confirmada ?
+      ElevatedButton(
+        child: const Text('Confirmar pago ahora'),
+        onPressed: launchPaymentConfirmationScreen,
+      ) : const SizedBox();
   }
 
-  Future<void> confirmPayment() async {
+  Future<void> launchPaymentConfirmationScreen() async {
     final result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) =>
-            PaymentConfirmationScreen(payment: payment!)));
-
+      MaterialPageRoute(builder: (context) =>
+        PaymentConfirmationScreen(payment: payment!)));
     if(result is Payment) {
       setState(() {
         payment = result;

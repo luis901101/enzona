@@ -10,7 +10,7 @@ class PaymentConfirmationEmbedPage extends StatefulWidget {
   const PaymentConfirmationEmbedPage({Key? key}) : super(key: key);
 
   @override
-  State<PaymentConfirmationEmbedPage> createState() => _PaymentConfirmationEmbedPageState();
+  State createState() => _PaymentConfirmationEmbedPageState();
 }
 
 class _PaymentConfirmationEmbedPageState extends BasePageState<PaymentConfirmationEmbedPage> {

@@ -1,5 +1,5 @@
 import 'package:example/src/page/payment_confirmation_embed_page.dart';
-import 'package:example/src/page/payment_confirmation_full_screen_page.dart';
+import 'package:example/src/page/payment_confirmation_full_screen_page_v1.dart';
 import 'package:flutter/material.dart';
 
 /// Make sure to put all of this environment variables in your
@@ -64,16 +64,25 @@ class MyHomePage extends StatelessWidget {
           children: [
             ListTile(
               title: const Text('Confirmar pago con Widget embebido'),
-              subtitle: const Text('En este ejemplo se muestra cómo utilizar el Widget para confirmación de pago embebido en un WidgetTree'),
+              subtitle: const Text('Recomendado cuando se necesita mostrar el Widget de confirmación de pago embebido en un WidgetTree propio.'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationEmbedPage()));
               },
             ),
+            const SizedBox(height: 8),
             ListTile(
-              title: const Text('Confirmar pago desde pantalla de confirmación v1'),
-              subtitle: const Text('En este ejemplo se muestra cómo utilizar la pantalla de confirmación de pago cuando no se quiere usar el Widget embebido. El resultado de confirmación del pago se obtiene a partir de la respuesta que emite Navigator.pop(...) desde la pantalla de confirmación'),
+              title: const Text('Confirmar pago desde pantalla de confirmación (Variante 1)'),
+              subtitle: const Text('Recomendado cuando lo que se necesita es que el proceso de confirmación se realize en una pantalla únicamente dedicada a ello. El resultado de confirmación del pago se obtiene a partir de la respuesta que emite Navigator.push(...) desde la pantalla de confirmación.'),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV1()));
+              },
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              title: const Text('Confirmar pago desde pantalla de confirmación (Variante 2)'),
+              subtitle: const Text('Recomendado cuando lo que se necesita es que el proceso de confirmación se realize en una pantalla únicamente dedicada a ello. El resultado de confirmación del pago se obtiene usando los callbacks onPaymentConfirmed(payment) y onPaymentCancelled(payment).'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV1()));
               },
             ),
           ],
