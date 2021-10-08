@@ -42,24 +42,24 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
   String get cancelUrl => widget.payment.cancelUrl ?? 'about:blank';
 
   Widget get webView {
-    if(kIsWeb || Platform.isIOS) {
-      return WebViewX(
-        width: double.infinity,
-        height: double.infinity,
-        initialContent: confirmationUrl,
-        initialSourceType: SourceType.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        // gestureNavigationEnabled: true,
-        onWebViewCreated: (controller) {
-          webViewXController = controller;
-        },
-        navigationDelegate: (request) async =>
-          onNavigateTo(request.content.source) ?
-            NavigationDecision.navigate :
-              NavigationDecision.prevent,
-        onPageFinished: (url) => hideLoading(),
-      );
-    }
+    // if(kIsWeb || Platform.isIOS) {
+    //   return WebViewX(
+    //     width: double.infinity,
+    //     height: double.infinity,
+    //     initialContent: confirmationUrl,
+    //     initialSourceType: SourceType.url,
+    //     javascriptMode: JavascriptMode.unrestricted,
+    //     // gestureNavigationEnabled: true,
+    //     onWebViewCreated: (controller) {
+    //       webViewXController = controller;
+    //     },
+    //     navigationDelegate: (request) async =>
+    //       onNavigateTo(request.content.source) ?
+    //         NavigationDecision.navigate :
+    //           NavigationDecision.prevent,
+    //     onPageFinished: (url) => hideLoading(),
+    //   );
+    // }
     return InAppWebView(
       initialOptions: InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(

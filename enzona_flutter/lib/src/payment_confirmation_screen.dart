@@ -17,7 +17,7 @@ class PaymentConfirmationScreen extends StatelessWidget {
   /// It's not required because Payment will be returned when screen pops
   final ValueChanged<Payment>? onPaymentCancelled;
 
-  late BuildContext context;
+  late final BuildContext context;
 
   PaymentConfirmationScreen({
     Key? key,
