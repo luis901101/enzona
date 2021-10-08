@@ -24,6 +24,7 @@ export 'package:enzona/src/entity/refund.dart';
 
 export 'package:enzona/src/enumerator/status_code.dart';
 
+/// CORS configurations from API prevents requests from unauthorized web clients
 class Enzona {
   final String apiUrl;
   final String accessTokenUrl;

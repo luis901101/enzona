@@ -124,6 +124,25 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
 
   @override
   Widget build(BuildContext context) {
+    /// Currently web support is not available for Enzona because
+    /// WebViewX uses iframe for web support and uses BypassProxy for
+    /// pages that doesn't allow iframe
+    /// So as Enzona is only available in Cuba, a CustomBypassProxy should be implemented
+    /// Hence no support available.
+    /// More info about WebViewX capabilities regarding Web support here: https://github.com/adrianflutur/webviewx/issues/27
+    // return WebViewX(
+    //   width: MediaQuery.of(context).size.width,
+    //   height: MediaQuery.of(context).size.height,
+    //   // initialContent: 'http://ofertas.cu/',
+    //   initialContent: 'https://sandbox.enzona.net/checkout/0109569aeee8ad48b9b09b3af76a02d5c2/login',
+    //   initialSourceType: SourceType.urlBypass,
+    //   javascriptMode: JavascriptMode.unrestricted,
+    //   webSpecificParams: WebSpecificParams(
+    //     proxyList: [
+    //       CustomBypassProxySupportingEnzona()
+    //     ]
+    //   ),
+    // );
     return Scaffold(
       body: Stack(
         children: [
