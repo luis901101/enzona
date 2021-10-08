@@ -1,5 +1,4 @@
-import 'package:chopper/chopper.dart';
-import 'package:enzona/src/base_api/enzona_response.dart';
+import 'package:enzona/src/base_api/e_response.dart';
 import 'package:enzona/src/entity/error_response.dart';
 import 'package:enzona/src/entity/pagination.dart';
 import 'package:enzona/src/entity/payment_amount.dart';
@@ -111,7 +110,7 @@ void main() async {
     String? fullRefundPaymentId, partialRefundPaymentId;
     String? refundId;
 
-    bool isResponseNoREDSAConnection(EnzonaResponse response) =>
+    bool isResponseNoREDSAConnection(EResponse response) =>
       !response.isSuccessful &&
       response.error is ErrorResponse &&
       (response.error as ErrorResponse).code == StatusCode.noConexionREDSA;

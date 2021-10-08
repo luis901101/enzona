@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:enzona/enzona.dart';
+import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart' as retrofit;
 import 'package:dio/dio.dart' as dio;
 import 'package:enzona/src/base_api/base_authorization_api.dart';
-import 'package:enzona/src/base_api/enzona_response.dart';
+import 'package:enzona/src/base_api/e_response.dart';
 import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
 import 'package:enzona/src/entity/pagination.dart';
 import 'package:enzona/src/utils/jsonable.dart';
@@ -40,7 +42,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
     restAPI.init(httpClient: httpClient);
   }
 
-  Object? parseError(EnzonaResponse response) {
+  Object? parseError(EResponse response) {
     Object? errorTypeResult = response.error;
     try {
       if (errorType is Jsonable) {
@@ -53,22 +55,22 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
     return errorTypeResult;
   }
 
-  Future<EnzonaResponse> getSaveResponse(Future futureResponse) async {
-    EnzonaResponse response = EnzonaResponse(
+  Future<EResponse> getSaveResponse(Future futureResponse) async {
+    EResponse response = EResponse(
       http.Response('', HttpStatus.notFound),
       null,
     );
 
-    EnzonaResponse chopperResponseToCustomHttpResponse(chopper.Response response) =>
-      EnzonaResponse(
+    EResponse chopperResponseToCustomHttpResponse(chopper.Response response) =>
+      EResponse(
         response.base,
         response.body,
         error: response.error,
         extraData: response,
       );
 
-    EnzonaResponse retrofitHttpResponseToCustomHttpResponse(retrofit.HttpResponse response) =>
-      EnzonaResponse(
+    EResponse retrofitHttpResponseToCustomHttpResponse(retrofit.HttpResponse response) =>
+      EResponse(
         http.Response(
           '',
           response.response.statusCode ?? HttpStatus.notFound,
@@ -84,21 +86,23 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
         extraData: response
       );
 
-    EnzonaResponse dioErrorToCustomHttpResponse(dio.DioError error) =>
-      EnzonaResponse(
+    EResponse dioErrorToCustomHttpResponse(dio.DioError error) =>
+      EResponse(
         http.Response(
           '',
           error.response?.statusCode ?? HttpStatus.notFound,
           headers: error.response?.headers.map.map((key, value) => MapEntry(key, value.join('; '))) ?? {},
           isRedirect: error.response?.isRedirect ?? false,
           request: http.Request(
-            error.response?.requestOptions.method ?? '',
+            error.response?.requestOptions.method ?? HttpMethod.GET,
             error.response?.requestOptions.uri ?? Uri(),
           ),
         ),
         null,
-        error: error.response?.data,
-        extraData: response
+        error: error.response?.data ?? ErrorResponse(
+          message: error.message,
+        ),
+        extraData: error
       );
 
     try {
@@ -118,6 +122,13 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
         response = retrofitHttpResponseToCustomHttpResponse(e);
       } else
       if (e is dio.DioError) {
+        switch(e.type) {
+          case dio.DioErrorType.connectTimeout:
+          case dio.DioErrorType.receiveTimeout:
+          case dio.DioErrorType.sendTimeout:
+            throw TimeoutException(e.message);
+          default:
+        }
         response = dioErrorToCustomHttpResponse(e);
       } else {
         rethrow;
@@ -126,23 +137,23 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
     return response;
   }
 
-  Future<EnzonaResponse<DataType>> parseResponse(Future futureResponse) async {
+  Future<EResponse<DataType>> parseResponse(Future futureResponse) async {
     return genericParseResponse(futureResponse, dataType: dataType);
   }
 
-  Future<EnzonaResponse<List<DataType>>> parseResponseAsList(
+  Future<EResponse<List<DataType>>> parseResponseAsList(
       Future futureResponse) async {
     return genericParseResponseAsList(futureResponse, dataType: dataType);
   }
 
-  Future<EnzonaResponse<List<DataType>>> parsePaginationResponseAsList(
+  Future<EResponse<List<DataType>>> parsePaginationResponseAsList(
       Future futureResponse, {required String dataListParam}) async {
     return genericParsePaginationResponseAsList(futureResponse, dataType: dataType, dataListParam: dataListParam);
   }
 
-  Future<EnzonaResponse<DataTypeGeneric>> genericParseResponse<DataTypeGeneric extends Jsonable?>(
+  Future<EResponse<DataTypeGeneric>> genericParseResponse<DataTypeGeneric extends Jsonable?>(
       Future futureResponse, {DataTypeGeneric? dataType}) async {
-    EnzonaResponse response = await getSaveResponse(futureResponse);
+    EResponse response = await getSaveResponse(futureResponse);
     try {
       DataTypeGeneric? dataTypeResult;
       if (dataType != null) {
@@ -157,11 +168,11 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
         }
       }
       Object? errorTypeResult = parseError(response);
-      return EnzonaResponse<DataTypeGeneric>(response.base, dataTypeResult,
+      return EResponse<DataTypeGeneric>(response.base, dataTypeResult,
           error: errorTypeResult);
     } catch (e) {
       String message = e.toString();
-      response = EnzonaResponse(
+      response = EResponse(
           http.Response(
             response.body?.toString() ?? '',
             Jsonable.jsonParserError,
@@ -175,13 +186,13 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
           error: message);
       print(e);
     }
-    return EnzonaResponse<DataTypeGeneric>(response.base, null, error: response.error);
+    return EResponse<DataTypeGeneric>(response.base, null, error: response.error);
   }
 
-  Future<EnzonaResponse<List<DataTypeGeneric>>>
+  Future<EResponse<List<DataTypeGeneric>>>
       genericParseResponseAsList<DataTypeGeneric extends Jsonable?>(
           Future futureResponse, {DataTypeGeneric? dataType}) async {
-    EnzonaResponse response = await getSaveResponse(futureResponse);
+    EResponse response = await getSaveResponse(futureResponse);
     try {
       List<DataTypeGeneric>? dataList;
       if (dataType != null) {
@@ -196,11 +207,11 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
         }
       }
       Object? errorTypeResult = parseError(response);
-      return EnzonaResponse<List<DataTypeGeneric>>(response.base, dataList,
+      return EResponse<List<DataTypeGeneric>>(response.base, dataList,
           error: errorTypeResult);
     } catch (e) {
       String message = e.toString();
-      response = EnzonaResponse(
+      response = EResponse(
           http.Response(
             response.body?.toString() ?? '',
             Jsonable.jsonParserError,
@@ -214,13 +225,13 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
           error: message);
       print(e);
     }
-    return EnzonaResponse<List<DataTypeGeneric>>(response.base, null, error: response.error);
+    return EResponse<List<DataTypeGeneric>>(response.base, null, error: response.error);
   }
 
-  Future<EnzonaResponse<List<DataTypeGeneric>>>
+  Future<EResponse<List<DataTypeGeneric>>>
       genericParsePaginationResponseAsList<DataTypeGeneric extends Jsonable?>(
           Future futureResponse, {DataTypeGeneric? dataType, required String dataListParam}) async {
-    EnzonaResponse response = await getSaveResponse(futureResponse);
+    EResponse response = await getSaveResponse(futureResponse);
     try {
       List<DataTypeGeneric>? dataList;
       if (dataType != null) {
@@ -231,7 +242,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
           dataList = dataType.fromJsonList(body[dataListParam]) as List<DataTypeGeneric>?;
         }
         Object? errorTypeResult = parseError(response);
-        return EnzonaResponse<List<DataTypeGeneric>>(
+        return EResponse<List<DataTypeGeneric>>(
           response.base,
           dataList,
           error: errorTypeResult
@@ -239,7 +250,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
       }
     } catch (e) {
       String message = e.toString();
-      response = EnzonaResponse(
+      response = EResponse(
         http.Response(
           response.body?.toString() ?? '',
           Jsonable.jsonParserError,
@@ -254,7 +265,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
       );
       print(e);
     }
-    return EnzonaResponse<List<DataTypeGeneric>>(response.base, null, error: response.error);
+    return EResponse<List<DataTypeGeneric>>(response.base, null, error: response.error);
   }
 
   @override

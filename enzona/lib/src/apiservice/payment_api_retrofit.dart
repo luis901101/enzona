@@ -1,5 +1,5 @@
 
-import 'package:enzona/src/base_api/enzona_response.dart';
+import 'package:enzona/src/base_api/e_response.dart';
 import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
 import 'package:enzona/src/base_api/rest_api_retrofit_service.dart';
 import 'package:enzona/src/entity/error_response.dart';
@@ -13,7 +13,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
   PaymentAPIRetrofit() : super(PaymentServiceRetrofit(rest_api.restAPI.dio), dataType: Payment(), errorType: ErrorResponse());
 
   ///Payments
-  Future<EnzonaResponse<List<Payment>>> getPayments({
+  Future<EResponse<List<Payment>>> getPayments({
     String? authorization,
     String? merchantUUID,
     int? pageSize,
@@ -43,14 +43,14 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
     );
   }
 
-  Future<EnzonaResponse<Payment>> getPayment({
+  Future<EResponse<Payment>> getPayment({
     required String transactionUUID,
     String? authorization,
   }) async {
     return parseResponse(service.getPayment(transactionUUID: transactionUUID));
   }
 
-  Future<EnzonaResponse<Payment>> createPayment({
+  Future<EResponse<Payment>> createPayment({
     required PaymentRequest data,
     String? authorization
   }) async {
@@ -65,7 +65,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
     return response;
   }
 
-  Future<EnzonaResponse<Payment>> completePayment({
+  Future<EResponse<Payment>> completePayment({
     required String transactionUUID,
     String? authorization
   }) async {
@@ -76,7 +76,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
     );
   }
 
-  Future<EnzonaResponse<Payment>> cancelPayment({
+  Future<EResponse<Payment>> cancelPayment({
     required String transactionUUID,
     String? authorization
   }) async {
@@ -90,7 +90,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
 
 
   ///Refunds
-  Future<EnzonaResponse<List<Refund>>> getRefunds({
+  Future<EResponse<List<Refund>>> getRefunds({
     String? authorization,
     dynamic merchantUUID,
     dynamic transactionUUID,
@@ -121,7 +121,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
     );
   }
 
-  Future<EnzonaResponse<Refund>> getRefund({
+  Future<EResponse<Refund>> getRefund({
     required String transactionUUID,
     String? authorization,
   }) async {
@@ -133,7 +133,7 @@ class PaymentAPIRetrofit extends RestAPIRetrofitService<PaymentServiceRetrofit, 
     );
   }
 
-  Future<EnzonaResponse<Refund>> refundPayment({
+  Future<EResponse<Refund>> refundPayment({
     required String transactionUUID,
     Refund? data,
     String? authorization

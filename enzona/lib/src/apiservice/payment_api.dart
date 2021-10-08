@@ -1,19 +1,18 @@
 
-import 'package:chopper/chopper.dart';
-import 'package:enzona/src/base_api/rest_api_service.dart';
+import 'package:enzona/src/base_api/e_response.dart';
+import 'package:enzona/src/base_api/rest_api_retrofit_service.dart';
 import 'package:enzona/src/entity/error_response.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/service/payment_service.dart';
 
-class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> implements PaymentService{
+class PaymentAPI extends RestAPIRetrofitService<PaymentService, Payment, ErrorResponse> {
 
   PaymentAPI() : super(PaymentService.createInstance(), dataType: Payment(), errorType: ErrorResponse());
 
   ///Payments
-  @override
-  Future<Response<List<Payment>>> getPayments({
+  Future<EResponse<List<Payment>>> getPayments({
     String? authorization,
     dynamic merchantUUID,
     int? pageSize,
@@ -43,16 +42,14 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     );
   }
 
-  @override
-  Future<Response<Payment>> getPayment({
+  Future<EResponse<Payment>> getPayment({
     required String transactionUUID,
     String? authorization,
   }) async {
     return parseResponse(service.getPayment(transactionUUID: transactionUUID));
   }
 
-  @override
-  Future<Response<Payment>> createPayment({
+  Future<EResponse<Payment>> createPayment({
     required PaymentRequest data,
     String? authorization
   }) async {
@@ -67,8 +64,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     return response;
   }
 
-  @override
-  Future<Response<Payment>> completePayment({
+  Future<EResponse<Payment>> completePayment({
     required String transactionUUID,
     String? authorization
   }) async {
@@ -79,8 +75,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     );
   }
 
-  @override
-  Future<Response<Payment>> cancelPayment({
+  Future<EResponse<Payment>> cancelPayment({
     required String transactionUUID,
     String? authorization
   }) async {
@@ -94,8 +89,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
 
 
   ///Refunds
-  @override
-  Future<Response<List<Refund>>> getRefunds({
+  Future<EResponse<List<Refund>>> getRefunds({
     String? authorization,
     dynamic merchantUUID,
     dynamic transactionUUID,
@@ -126,8 +120,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     );
   }
 
-  @override
-  Future<Response<Refund>> getRefund({
+  Future<EResponse<Refund>> getRefund({
     required String transactionUUID,
     String? authorization,
   }) async {
@@ -139,8 +132,7 @@ class PaymentAPI extends RestAPIService<PaymentService, Payment, ErrorResponse> 
     );
   }
 
-  @override
-  Future<Response<Refund>> refundPayment({
+  Future<EResponse<Refund>> refundPayment({
     required String transactionUUID,
     Refund? data,
     String? authorization

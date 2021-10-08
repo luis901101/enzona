@@ -15,8 +15,8 @@ import 'package:meta/meta.dart';
 /// Future<Response<Item>> fetchItem();
 /// ```
 @immutable
-class EnzonaResponse<BodyType> {
-  /// The [http.BaseResponse] from `package:http` that this [EnzonaResponse] wraps.
+class EResponse<BodyType> {
+  /// The [http.BaseResponse] from `package:http` that this [EResponse] wraps.
   final http.BaseResponse base;
 
   /// The body of the response after conversion by Chopper
@@ -31,16 +31,16 @@ class EnzonaResponse<BodyType> {
 
   final dynamic extraData;
 
-  EnzonaResponse(this.base, this.body, {this.error, this.extraData});
+  EResponse(this.base, this.body, {this.error, this.extraData});
 
   /// Makes a copy of this Response, replacing original values with the given ones.
   /// This method can also alter the type of the response body.
-  EnzonaResponse<NewBodyType> copyWith<NewBodyType>({
+  EResponse<NewBodyType> copyWith<NewBodyType>({
     http.BaseResponse? base,
     NewBodyType? body,
     Object? bodyError,
   }) =>
-      EnzonaResponse<NewBodyType>(
+      EResponse<NewBodyType>(
         base ?? this.base,
         body ?? (this.body as NewBodyType),
         error: bodyError ?? error,

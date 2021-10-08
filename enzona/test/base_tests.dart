@@ -41,6 +41,7 @@ Future<void> init() async {
     consumerKey: consumerKey!,
     consumerSecret: consumerSecret!,
     scopes: scopes!,
+    timeout: Duration(seconds: 5)
   );
   await enzona.init();
 }
