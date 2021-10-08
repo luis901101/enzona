@@ -32,7 +32,7 @@ abstract class RestAPIService<I, DataType extends Jsonable, ErrorType> with Base
   }
 
   void updateHttpClient(http.Client httpClient) {
-    restAPI.init(httpClient: httpClient);
+    restAPI.init(baseClient: httpClient);
   }
 
   Object? parseError(Response response) {

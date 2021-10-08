@@ -39,7 +39,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
   }
 
   void updateHttpClient(http.Client httpClient) {
-    restAPI.init(httpClient: httpClient);
+    restAPI.init(baseClient: httpClient);
   }
 
   Object? parseError(EResponse response) {
@@ -129,6 +129,7 @@ abstract class RestAPIRetrofitService<I, DataType extends Jsonable, ErrorType> w
             throw TimeoutException(e.message);
           default:
         }
+        if(e.error is Exception) throw e.error;
         response = dioErrorToCustomHttpResponse(e);
       } else {
         rethrow;

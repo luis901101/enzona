@@ -22,6 +22,7 @@ export 'package:enzona/src/entity/payment_item.dart';
 export 'package:enzona/src/entity/payment_link.dart';
 export 'package:enzona/src/entity/payment_request.dart';
 export 'package:enzona/src/entity/refund.dart';
+export 'package:enzona/src/base_api/e_response.dart';
 
 export 'package:enzona/src/enumerator/status_code.dart';
 
@@ -68,9 +69,9 @@ class Enzona {
     /// Oauth2 Client but in addition it ensures token refresh by doing a
     /// clientCredentialsGrant.
 
-    http.Client? customClient;
+    http.Client? baseClient;
     if(!PlatformUtils.isWeb) {
-      customClient = IOClient(httpClient);
+      baseClient = IOClient(httpClient);
     }
     oauth2Client = CustomOauth2Client.fromOauth2Client(
       await oauth2.clientCredentialsGrant(
@@ -78,13 +79,14 @@ class Enzona {
         consumerKey,
         consumerSecret,
         scopes: scopes,
-        httpClient: customClient,
+        httpClient: baseClient,
       ),
-      httpClient: customClient,
+      httpClient: baseClient,
     );
 
     restAPI.init(
-      httpClient: oauth2Client,
+      baseClient: oauth2Client,
+      httpClient: httpClient,
       apiUrl: apiUrl,
       timeout: timeout,
     );

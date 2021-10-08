@@ -14,7 +14,7 @@ abstract class BasePageState<S extends StatefulWidget> extends State<S> {
   bool paymentCancelled = false;
   Payment? payment;
   late PaymentRequest paymentRequest;
-  Response<Payment>? response;
+  EResponse<Payment>? response;
   late Enzona enzona;
   String ? errorMessage;
 

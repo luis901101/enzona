@@ -12,7 +12,8 @@ final restAPI = RestAPI();
 class RestAPI {
   Dio dio = Dio();
 
-  http.Client? httpClient;
+  http.Client? baseClient;
+  HttpClient? httpClient;
   CustomChopperClient chopperClient = CustomChopperClient();
   chopper.Converter? converter;
   final Map<Type, chopper.ChopperService> _services = {};
@@ -30,9 +31,10 @@ class RestAPI {
     apiUrl = apiProtocol! + apiHost! + apiPort!;
   }
 
-  void init({String? apiUrl, Duration? timeout, http.Client? httpClient}) {
+  void init({String? apiUrl, Duration? timeout, http.Client? baseClient, HttpClient? httpClient}) {
     if ((apiUrl?.isNotEmpty ?? true)) updateApiUrl(apiUrl: apiUrl);
     if (timeout != null) this.timeout = timeout;
+    if (baseClient != null) this.baseClient = baseClient;
     if (httpClient != null) this.httpClient = httpClient;
 
     initChopper();
@@ -48,7 +50,7 @@ class RestAPI {
     converter ??= chopper.JsonConverter();
     chopperClient = CustomChopperClient(
       baseUrl: apiUrl,
-      client: httpClient,
+      client: baseClient,
       services: _services.values,
       converter: converter,
       timeout: timeout,
@@ -69,28 +71,26 @@ class RestAPI {
       )
     );
 
-
-    if(httpClient is CustomOauth2Client) {
-      CustomOauth2Client client = httpClient as CustomOauth2Client;
+    if(baseClient is CustomOauth2Client) {
+      CustomOauth2Client oauth2Client = baseClient as CustomOauth2Client;
       // Add auth token to each request
       dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
-        if(client.credentials.isExpired) {
-          httpClient = client = await client.refreshCredentials();
+        if(oauth2Client.credentials.isExpired) {
+          baseClient = oauth2Client = await oauth2Client.refreshCredentials();
         }
-
         options.headers.addAll({
-          HttpHeaders.authorizationHeader: "Bearer ${client.credentials.accessToken}",
+          HttpHeaders.authorizationHeader: "Bearer ${oauth2Client.credentials.accessToken}",
           HttpHeaders.contentTypeHeader: Headers.jsonContentType,
         });
         return handler.next(options);
       }));
     }
 
-    // if(httpClient != null) {
-    //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate  = (client) {
-    //     return httpClient;
-    //   };
-    // }
+    if(httpClient != null) {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate  = (client) {
+        return httpClient;
+      };
+    }
   }
 
   void _initServices() {
