@@ -6,12 +6,12 @@ class CustomChopperClient extends ChopperClient {
   Duration? timeout;
 
   CustomChopperClient({
-    baseUrl: '',
+    baseUrl = '',
     http.Client? client,
-    Iterable interceptors: const [],
+    Iterable interceptors = const [],
     Converter? converter,
     ErrorConverter? errorConverter,
-    Iterable<ChopperService> services: const [],
+    Iterable<ChopperService> services = const [],
     this.timeout,
   }) : super(
             baseUrl: baseUrl,

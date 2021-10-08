@@ -1,6 +1,7 @@
 library enzona;
 
 import 'dart:io';
+import 'package:enzona/src/apiservice/payment_api_retrofit.dart';
 import 'package:enzona/src/utils/platofrm_utils.dart';
 
 import 'package:enzona/src/apiservice/payment_api.dart';
@@ -38,7 +39,8 @@ class Enzona {
   /// OAuth2 Client for authorization API requests
   late final CustomOauth2Client oauth2Client;
   /// Enzona Payment API
-  late final PaymentAPI paymentAPI;
+  late final PaymentAPI paymentAPIChopper;
+  late final PaymentAPIRetrofit paymentAPI;
   bool _initialized = false;
 
   Enzona({
@@ -87,7 +89,8 @@ class Enzona {
       timeout: timeout,
     );
 
-    paymentAPI = PaymentAPI();
+    paymentAPIChopper = PaymentAPI();
+    paymentAPI = PaymentAPIRetrofit();
     _initialized = true;
   }
 }

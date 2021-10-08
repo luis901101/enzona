@@ -8,7 +8,7 @@ import 'package:enzona/src/utils/jsonable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-abstract class RestAPIService<I extends ChopperService, DataType extends Jsonable, ErrorType> with BaseAuthorizationAPI implements ChopperService {
+abstract class RestAPIService<I, DataType extends Jsonable, ErrorType> with BaseAuthorizationAPI implements ChopperService {
 
   static const authorizationKey = "Authorization";
 
@@ -26,7 +26,9 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
     this.errorType,
     rest_api.RestAPI? restAPI,
   }) : restAPI = restAPI ?? rest_api.restAPI {
-    this.restAPI.addService(service);
+    if(service is ChopperService) {
+      this.restAPI.addService(service as ChopperService);
+    }
   }
 
   void updateHttpClient(http.Client httpClient) {
@@ -177,11 +179,11 @@ abstract class RestAPIService<I extends ChopperService, DataType extends Jsonabl
   }
 
   @override
-  Type get definitionType => service.definitionType;
+  Type get definitionType => (service as ChopperService).definitionType;
 
   @override
-  ChopperClient get client => service.client;
+  ChopperClient get client => (service as ChopperService).client;
 
   @override
-  set client(ChopperClient client) => service.client = client;
+  set client(ChopperClient client) => (service as ChopperService).client = client;
 }

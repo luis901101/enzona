@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:enzona/src/base_api/enzona_response.dart';
 import 'package:enzona/src/entity/error_response.dart';
 import 'package:enzona/src/entity/pagination.dart';
 import 'package:enzona/src/entity/payment_amount.dart';
@@ -34,12 +35,14 @@ void main() async {
       });
 
       test('Do get payment byId', () async {
-        if(paymentId != null) {
-          final response = await enzona.paymentAPI.getPayment(transactionUUID: paymentId);
-          expect(response.isSuccessful, true);
-          expect(response.body, isNotNull);
-          expect(response.body?.statusCode, isNotNull);
+        if(paymentId == null) {
+          markTestSkipped('Do get payment byId skipped: No payment available to get by Id');
+          return;
         }
+        final response = await enzona.paymentAPI.getPayment(transactionUUID: paymentId);
+        expect(response.isSuccessful, true);
+        expect(response.body, isNotNull);
+        expect(response.body?.statusCode, isNotNull);
       });
     });
   });
@@ -108,7 +111,7 @@ void main() async {
     String? fullRefundPaymentId, partialRefundPaymentId;
     String? refundId;
 
-    bool isResponseNoREDSAConnection(Response response) =>
+    bool isResponseNoREDSAConnection(EnzonaResponse response) =>
       !response.isSuccessful &&
       response.error is ErrorResponse &&
       (response.error as ErrorResponse).code == StatusCode.noConexionREDSA;

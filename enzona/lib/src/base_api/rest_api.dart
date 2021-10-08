@@ -1,14 +1,21 @@
-import 'package:chopper/chopper.dart';
+import 'dart:io';
+
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:enzona/src/base_api/adept_chopper_client.dart';
+import 'package:enzona/src/base_api/custom_oauth2_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:dio/adapter.dart';
 
 final restAPI = RestAPI();
 
 class RestAPI {
+  Dio dio = Dio();
+
   http.Client? httpClient;
-  CustomChopperClient? chopperClient;
-  Converter? converter;
-  final Map<Type, ChopperService> _services = {};
+  CustomChopperClient chopperClient = CustomChopperClient();
+  chopper.Converter? converter;
+  final Map<Type, chopper.ChopperService> _services = {};
 
   Duration? timeout;
   String? apiProtocol;
@@ -27,25 +34,68 @@ class RestAPI {
     if ((apiUrl?.isNotEmpty ?? true)) updateApiUrl(apiUrl: apiUrl);
     if (timeout != null) this.timeout = timeout;
     if (httpClient != null) this.httpClient = httpClient;
+
+    initChopper();
+    initDio();
+  }
+
+  void initChopper() {
     try {
-      chopperClient?.dispose();
+      chopperClient.dispose();
     } catch (e) {
       print(e);
     }
-    converter ??= JsonConverter();
+    converter ??= chopper.JsonConverter();
     chopperClient = CustomChopperClient(
-      baseUrl: this.apiUrl,
-      client: this.httpClient,
+      baseUrl: apiUrl,
+      client: httpClient,
       services: _services.values,
       converter: converter,
-      timeout: this.timeout,
+      timeout: timeout,
     );
     _initServices();
   }
 
+  void initDio() {
+    try {
+      dio.close(force: true);
+    } catch (e) {
+      print(e);
+    }
+    dio = Dio(
+      BaseOptions(
+        baseUrl: apiUrl,
+        connectTimeout: timeout?.inMilliseconds
+      )
+    );
+
+
+    if(httpClient is CustomOauth2Client) {
+      CustomOauth2Client client = httpClient as CustomOauth2Client;
+      // Add auth token to each request
+      dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
+        if(client.credentials.isExpired) {
+          httpClient = client = await client.refreshCredentials();
+        }
+
+        options.headers.addAll({
+          HttpHeaders.authorizationHeader: "Bearer ${client.credentials.accessToken}",
+          HttpHeaders.contentTypeHeader: Headers.jsonContentType,
+        });
+        return handler.next(options);
+      }));
+    }
+
+    // if(httpClient != null) {
+    //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate  = (client) {
+    //     return httpClient;
+    //   };
+    // }
+  }
+
   void _initServices() {
     _services.forEach((type, service) {
-      service.client = chopperClient!;
+      service.client = chopperClient;
     });
   }
 
@@ -53,18 +103,18 @@ class RestAPI {
     try {
       // _services.forEach((t, s) => s.dispose()); // ChopperService no longer support .dispose()
       _services.clear();
-      chopperClient?.dispose();
+      chopperClient.dispose();
     } catch (e) {
       print(e);
     }
   }
 
-  void addService(ChopperService service) {
-    service.client = chopperClient!;
+  void addService(chopper.ChopperService service) {
+    service.client = chopperClient;
     _services[service.definitionType] = service;
   }
 
-  T service<T extends ChopperService>(Type type) {
+  T service<T extends chopper.ChopperService>(Type type) {
     final s = _services[type];
     if (s == null) {
       throw Exception("Service of type '$type' not found.");
