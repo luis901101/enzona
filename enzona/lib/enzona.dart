@@ -1,11 +1,13 @@
 library enzona;
 
 import 'dart:io';
+import 'package:enzona/src/utils/platofrm_utils.dart';
 
 import 'package:enzona/src/apiservice/payment_api.dart';
 import 'package:enzona/src/base_api/custom_oauth2_client.dart';
 import 'package:enzona/src/base_api/rest_api.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
+import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 export 'package:enzona/src/apiservice/payment_api.dart';
@@ -30,7 +32,8 @@ class Enzona {
   final List<String> scopes;
   final Duration? timeout;
   /// Set this if you need control over http requests like validating certificates and so.
-  final HttpClient httpClient;
+  /// Not supported in Web
+  final HttpClient? httpClient;
   /// OAuth2 Client for authorization API requests
   late final CustomOauth2Client oauth2Client;
   /// Enzona Payment API
@@ -45,9 +48,9 @@ class Enzona {
     required this.scopes,
     this.timeout,
     HttpClient? httpClient,
-  }) : httpClient = httpClient ?? (HttpClient()..badCertificateCallback =
+  }) : httpClient = PlatformUtils.isWeb ? null : (httpClient ?? (HttpClient()..badCertificateCallback =
         (X509Certificate cert, String host, int port) =>
-          host == 'apisandbox.enzona.net' || host == 'api.enzona.net');
+          host == 'apisandbox.enzona.net' || host == 'api.enzona.net'));
 
   bool get isInitialized => _initialized;
 
@@ -62,7 +65,10 @@ class Enzona {
     /// Oauth2 Client but in addition it ensures token refresh by doing a
     /// clientCredentialsGrant.
 
-    final customClient = IOClient(httpClient);
+    http.Client? customClient;
+    if(!PlatformUtils.isWeb) {
+      customClient = IOClient(httpClient);
+    }
     oauth2Client = CustomOauth2Client.fromOauth2Client(
       await oauth2.clientCredentialsGrant(
         Uri.parse(accessTokenUrl),
