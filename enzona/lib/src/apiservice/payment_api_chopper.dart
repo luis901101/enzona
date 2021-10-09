@@ -1,15 +1,14 @@
 
 import 'package:enzona/src/apiservice/payment_api.dart';
 import 'package:enzona/src/base_api/e_response.dart';
-import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
-import 'package:enzona/src/service/payment_service_retrofit.dart';
+import 'package:enzona/src/service/payment_service.dart';
 
-class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
+class PaymentAPIChopper extends PaymentAPI<PaymentService, Payment> {
 
-  PaymentAPIRetrofit() : super(PaymentServiceRetrofit(rest_api.restAPI.dio), dataType: Payment());
+  PaymentAPIChopper() : super(PaymentService.createInstance(), dataType: Payment());
 
   ///Payments
   @override
@@ -97,12 +96,12 @@ class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
   @override
   Future<EResponse<List<Refund>>> getRefunds({
     String? authorization,
-    dynamic merchantUUID,
-    dynamic transactionUUID,
-    dynamic commerceRefundId,
+    String? merchantUUID,
+    String? transactionUUID,
+    String? commerceRefundId,
     int? pageSize,
     int? pageIndex,
-    dynamic status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
+    int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     String? startDate,
     String? endDate,
     String? order, ///Available values : asc, desc

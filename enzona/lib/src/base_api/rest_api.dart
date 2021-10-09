@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:enzona/src/base_api/adept_chopper_client.dart';
-import 'package:enzona/src/base_api/custom_oauth2_client.dart';
+import 'package:enzona/src/base_api/dio_oauth2_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:dio/adapter.dart';
@@ -12,8 +12,10 @@ final restAPI = RestAPI();
 class RestAPI {
   Dio dio = Dio();
 
-  http.Client? baseClient;
   HttpClient? httpClient;
+  http.Client? baseClient;
+  DioOauth2Client? dioOauth2Client;
+
   CustomChopperClient chopperClient = CustomChopperClient();
   chopper.Converter? converter;
   final Map<Type, chopper.ChopperService> _services = {};
@@ -31,11 +33,12 @@ class RestAPI {
     apiUrl = apiProtocol! + apiHost! + apiPort!;
   }
 
-  void init({String? apiUrl, Duration? timeout, http.Client? baseClient, HttpClient? httpClient}) {
+  void init({String? apiUrl, Duration? timeout, HttpClient? httpClient, http.Client? baseClient, DioOauth2Client? dioOauth2Client}) {
     if ((apiUrl?.isNotEmpty ?? true)) updateApiUrl(apiUrl: apiUrl);
     if (timeout != null) this.timeout = timeout;
-    if (baseClient != null) this.baseClient = baseClient;
     if (httpClient != null) this.httpClient = httpClient;
+    if (baseClient != null) this.baseClient = baseClient;
+    if (dioOauth2Client != null) this.dioOauth2Client = dioOauth2Client;
 
     initChopper();
     initDio();
@@ -71,15 +74,14 @@ class RestAPI {
       )
     );
 
-    if(baseClient is CustomOauth2Client) {
-      CustomOauth2Client oauth2Client = baseClient as CustomOauth2Client;
+    if(dioOauth2Client != null) {
       // Add auth token to each request
       dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
-        if(oauth2Client.credentials.isExpired) {
-          baseClient = oauth2Client = await oauth2Client.refreshCredentials();
+        if(dioOauth2Client!.credentials.isExpired) {
+          dioOauth2Client = await dioOauth2Client!.refreshCredentials();
         }
         options.headers.addAll({
-          HttpHeaders.authorizationHeader: "Bearer ${oauth2Client.credentials.accessToken}",
+          HttpHeaders.authorizationHeader: "Bearer ${dioOauth2Client!.credentials.accessToken}",
           HttpHeaders.contentTypeHeader: Headers.jsonContentType,
         });
         return handler.next(options);

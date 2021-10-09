@@ -18,12 +18,12 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> getPayments(
-      {dynamic merchantUUID,
+      {String? merchantUUID,
       int? pageSize,
       int? pageIndex,
-      dynamic merchantOp,
-      dynamic enzonaOp,
-      dynamic status,
+      String? merchantOp,
+      String? enzonaOp,
+      int? status,
       String? startDate,
       String? endDate,
       String? order,
@@ -76,12 +76,12 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> getRefunds(
-      {dynamic merchantUUID,
-      dynamic transactionUUID,
-      dynamic commerceRefundId,
+      {String? merchantUUID,
+      String? transactionUUID,
+      String? commerceRefundId,
       int? pageSize,
       int? pageIndex,
-      dynamic status,
+      int? status,
       String? startDate,
       String? endDate,
       String? order,

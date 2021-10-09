@@ -13,12 +13,12 @@ abstract class PaymentService extends ChopperService {
   ///Payments
   @Get(path: 'payments', headers: RestAPIService.defaultHeaders)
   Future<Response> getPayments({
-    @Query('merchant_uuid') dynamic merchantUUID,
+    @Query('merchant_uuid') String? merchantUUID,
     @Query('limit') int? pageSize,
     @Query('offset') int? pageIndex,
-    @Query('merchant_op_filter') dynamic merchantOp,
-    @Query('enzona_op_filter') dynamic enzonaOp,
-    @Query('status_filter') dynamic status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
+    @Query('merchant_op_filter') String? merchantOp,
+    @Query('enzona_op_filter') String? enzonaOp,
+    @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     @Query('start_date_filter') String? startDate,
     @Query('end_date_filter') String? endDate,
     @Query('order_filter') String? order, ///Available values : asc, desc
@@ -50,12 +50,12 @@ abstract class PaymentService extends ChopperService {
   ///Refunds
   @Get(path: 'payments/refunds', headers: RestAPIService.defaultHeaders)
   Future<Response> getRefunds({
-    @Query('merchant_uuid') dynamic merchantUUID,
-    @Query('transaction_uuid') dynamic transactionUUID,
-    @Query('commerce_refund_id') dynamic commerceRefundId,
+    @Query('merchant_uuid') String? merchantUUID,
+    @Query('transaction_uuid') String? transactionUUID,
+    @Query('commerce_refund_id') String? commerceRefundId,
     @Query('limit') int? pageSize,
     @Query('offset') int? pageIndex,
-    @Query('status_filter') dynamic status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
+    @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     @Query('start_date_filter') String? startDate,
     @Query('end_date_filter') String? endDate,
     @Query('order_filter') String? order, ///Available values : asc, desc

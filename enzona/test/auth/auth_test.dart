@@ -9,11 +9,11 @@ void main() async {
   group('Enzona API authentication', () {
 
     test('OAuth2 authentication', () async {
-      expect(enzona.oauth2Client.credentials.accessToken, isNotEmpty);
+      expect(enzona.credentials.accessToken, isNotEmpty);
     });
 
     test('OAuth2 refresh token', () async {
-      final credentials = (await enzona.oauth2Client.refreshCredentials()).credentials;
+      final credentials = await enzona.refreshCredentials();
       expect(credentials, isNotNull);
     });
   });

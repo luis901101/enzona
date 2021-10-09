@@ -1,7 +1,6 @@
 
 import 'dart:math';
 
-import 'package:chopper/chopper.dart';
 import 'package:enzona_flutter/enzona_flutter.dart';
 import 'package:example/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,11 +26,11 @@ abstract class BasePageState<S extends StatefulWidget> extends State<S> {
   Future<void> init() async {
     try {
       enzona = Enzona(
-          apiUrl: apiUrl,
-          accessTokenUrl: accessTokenUrl,
-          consumerKey: consumerKey,
-          consumerSecret: consumerSecret,
-          scopes: scopes
+        apiUrl: apiUrl,
+        accessTokenUrl: accessTokenUrl,
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret,
+        scopes: scopes
       );
       paymentRequest = PaymentRequest(
         returnUrl: "http://url.to.return.after.payment.confirmation",
