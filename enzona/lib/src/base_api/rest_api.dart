@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:enzona/src/base_api/adept_chopper_client.dart';
+import 'package:enzona/src/base_api/custom_chopper_client.dart';
 import 'package:enzona/src/base_api/dio_oauth2_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';

@@ -1,4 +1,6 @@
 import 'package:example/src/page/payment_confirmation_embed_page.dart';
+import 'package:example/src/page/payment_confirmation_external_link_page_v1.dart';
+import 'package:example/src/page/payment_confirmation_external_link_page_v2.dart';
 import 'package:example/src/page/payment_confirmation_full_screen_page_v1.dart';
 import 'package:example/src/page/payment_confirmation_full_screen_page_v2.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ const String consumerSecret = String.fromEnvironment('ENZONA_CONSUMER_SECRET', d
 final List<String> scopes = const String.fromEnvironment('ENZONA_SCOPES', defaultValue: 'am_application_scope,enzona_business_payment,enzona_business_qr').split(',');
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -64,7 +67,7 @@ class MyHomePage extends StatelessWidget {
         child: ListView(
           children: [
             ListTile(
-              title: const Text('Confirmar pago con Widget embebido'),
+              title: const Text('Confirmar pago InApp con Widget embebido'),
               subtitle: const Text('Recomendado cuando se necesita mostrar el Widget de confirmación de pago embebido en un WidgetTree propio.'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationEmbedPage()));
@@ -72,7 +75,7 @@ class MyHomePage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ListTile(
-              title: const Text('Confirmar pago desde pantalla de confirmación (Variante 1)'),
+              title: const Text('Confirmar pago (InApp WebView) desde pantalla de confirmación (Variante 1)'),
               subtitle: const Text('Recomendado cuando lo que se necesita es que el proceso de confirmación se realize en una pantalla únicamente dedicada a ello. El resultado de confirmación del pago se obtiene a partir de la respuesta que emite Navigator.push(...) desde la pantalla de confirmación.'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV1()));
@@ -80,10 +83,26 @@ class MyHomePage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ListTile(
-              title: const Text('Confirmar pago desde pantalla de confirmación (Variante 2)'),
+              title: const Text('Confirmar pago (InApp WebView) desde pantalla de confirmación (Variante 2)'),
               subtitle: const Text('Recomendado cuando lo que se necesita es que el proceso de confirmación se realize en una pantalla únicamente dedicada a ello. El resultado de confirmación del pago se obtiene usando los callbacks onPaymentConfirmed(payment) y onPaymentCancelled(payment).'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationFullScreenPageV2()));
+              },
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              title: const Text('Confirmar pago fuera de la App desde el navegador del Sistema (Variante 1)'),
+              subtitle: const Text('Recomendado cuando la variante (InApp WebView) no es deseada. El resultado de confirmación del pago se obtiene a partir de la respuesta que emite Navigator.push(...) desde la pantalla de confirmación.'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationExternalLinkPageV1()));
+              },
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              title: const Text('Confirmar pago fuera de la App desde el navegador del Sistema (Variante 2)'),
+              subtitle: const Text('Recomendado cuando la variante (InApp WebView) no es deseada. El resultado de confirmación del pago se obtiene usando los callbacks onPaymentConfirmed(payment) y onPaymentCancelled(payment).'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentConfirmationExternalLinkPageV2()));
               },
             ),
           ],

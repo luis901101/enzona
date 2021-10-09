@@ -15,6 +15,9 @@ class PaymentConfirmationFullScreenPageV2 extends StatefulWidget {
 class PaymentConfirmationFullScreenPageV2State<S extends StatefulWidget> extends PaymentConfirmationFullScreenPageV1State<S> {
 
   @override
+  String get description => 'Este es un ejemplo de como usar la pantalla de confirmación de pago (Variante 2).';
+
+  @override
   Future<void> launchPaymentConfirmationScreen() async {
     Navigator.push(context,
       MaterialPageRoute(builder: (context) =>

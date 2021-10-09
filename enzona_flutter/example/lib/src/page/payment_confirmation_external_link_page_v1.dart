@@ -6,17 +6,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class PaymentConfirmationFullScreenPageV1 extends StatefulWidget {
-  const PaymentConfirmationFullScreenPageV1({Key? key}) : super(key: key);
+class PaymentConfirmationExternalLinkPageV1 extends StatefulWidget {
+  const PaymentConfirmationExternalLinkPageV1({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State createState() => PaymentConfirmationFullScreenPageV1State<PaymentConfirmationFullScreenPageV1>();
+  State createState() => PaymentConfirmationExternalLinkPageV1State<PaymentConfirmationExternalLinkPageV1>();
 }
 
-class PaymentConfirmationFullScreenPageV1State<S extends StatefulWidget> extends BasePageState<S> {
+class PaymentConfirmationExternalLinkPageV1State<S extends PaymentConfirmationExternalLinkPageV1> extends BasePageState<S> {
 
   @override
-  String get description => 'Este es un ejemplo de como usar la pantalla de confirmación de pago (Variante 1).';
+  String get description => 'Este es un ejemplo de cómo confirmar un pago usando el navegador del Sistema (Variante 1).';
 
   @override
   Widget paymentConfirmationCustomView() {
@@ -30,9 +32,11 @@ class PaymentConfirmationFullScreenPageV1State<S extends StatefulWidget> extends
   Future<void> launchPaymentConfirmationScreen() async {
     final result = await Navigator.push(context,
       MaterialPageRoute(builder: (context) =>
-        PaymentConfirmationScreen(
-          title: 'Confirmar pago variante 1',
+        PaymentConfirmationExternalLink(
+          title: 'Confirmar pago en app externa Variante 1',
+          enzona: enzona,
           payment: payment!,
+          tryUniversalLinks: true,
         )
       ));
     if(result is Payment) {
@@ -42,7 +46,24 @@ class PaymentConfirmationFullScreenPageV1State<S extends StatefulWidget> extends
           paymentCancelled = true;
         }
       });
+    } else {
+      // If code reach here an error occurred
+      onError(
+        error: result is ErrorResponse ? result : null,
+        exception: result is Exception ? result : null,
+      );
     }
+  }
+
+  void onError({Object? error, Exception? exception}) {
+    errorMessage = 'Error desconocido';
+    if(error is ErrorResponse && error.message != null) {
+      errorMessage = '${error.message}';
+    } else
+    if(exception != null) {
+      errorMessage = exception.toString();
+    }
+    setState(() {});
   }
 
   @override

@@ -23,6 +23,8 @@ abstract class BasePageState<S extends StatefulWidget> extends State<S> {
     init();
   }
 
+  String get description;
+
   Future<void> init() async {
     try {
       enzona = Enzona(
@@ -99,6 +101,30 @@ abstract class BasePageState<S extends StatefulWidget> extends State<S> {
             Text('Creando el pago, espere un momento por favor.'),
             SizedBox(height: 8),
             CircularProgressIndicator(),
+          ],
+        ),
+      );
+    }
+
+    if(errorMessage != null) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '''
+HUBO UN PROBLEMA AL INTENTAR CONFIRMAR EL PAGO.
+${errorMessage ?? ''} 
+              ''',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              child: const Text('Reintentar'),
+              onPressed: createPayment,
+            ),
           ],
         ),
       );

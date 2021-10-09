@@ -43,16 +43,16 @@ class PaymentConfirmationScreen extends StatelessWidget {
         onWillPop: onBackPressed,
         child: PaymentConfirmationView(
           payment: payment,
-          onPaymentConfirmed: (payment) {
-            Navigator.pop(context, payment);
-            onPaymentConfirmed?.call(payment);
-          },
-          onPaymentCancelled: (payment) {
-            onCancelled(payment);
-          },
+          onPaymentConfirmed: onConfirmed,
+          onPaymentCancelled: onCancelled,
         ),
       ),
     );
+  }
+
+  void onConfirmed(Payment payment, ) {
+    Navigator.pop(context, payment);
+    onPaymentConfirmed?.call(payment);
   }
 
   void onCancelled(Payment payment, ) {

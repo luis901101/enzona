@@ -16,6 +16,9 @@ class PaymentConfirmationEmbedPage extends StatefulWidget {
 class _PaymentConfirmationEmbedPageState extends BasePageState<PaymentConfirmationEmbedPage> {
 
   @override
+  String get description => 'Este es un ejemplo de como usar el Widget de confirmación de pago embebido en un WidgetTree';
+
+  @override
   Widget paymentConfirmationCustomView() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 70 / 100,
@@ -52,12 +55,12 @@ class _PaymentConfirmationEmbedPageState extends BasePageState<PaymentConfirmati
                   style: FlutterLogoStyle.stacked,
                 ),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Este es un ejemplo de como usar el Widget de confirmación de pago embebido en un WidgetTree',
+                    description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold
                     ),
                   ),

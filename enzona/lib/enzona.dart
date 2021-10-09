@@ -146,13 +146,6 @@ class EnzonaRetrofit extends Enzona {
   Future<void> init() async {
     if(isInitialized) return;
 
-    /// Oauth2 httpClient does token refresh automatically, but due to the lack
-    /// of a proper refresh token implementation from Enzona API the token refresh
-    /// should be done as new clientCredentialsGrant.
-    /// CustomOauth2Client is a wrapper that does exactly the same as official
-    /// Oauth2 Client but in addition it ensures token refresh by doing a
-    /// clientCredentialsGrant.
-
     dioOauth2Client = await DioOauth2Client.clientCredentialsGrant(
       Uri.parse(accessTokenUrl),
       consumerKey,
