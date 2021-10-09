@@ -18,6 +18,7 @@ class PaymentConfirmationScreen extends StatelessWidget {
   final ValueChanged<Payment>? onPaymentCancelled;
 
   late final BuildContext context;
+  final paymentViewStateKey = GlobalKey<PaymentConfirmationViewState>();
 
   PaymentConfirmationScreen({
     Key? key,
@@ -42,6 +43,7 @@ class PaymentConfirmationScreen extends StatelessWidget {
       body: WillPopScope(
         onWillPop: onBackPressed,
         child: PaymentConfirmationView(
+          key: paymentViewStateKey,
           payment: payment,
           onPaymentConfirmed: onConfirmed,
           onPaymentCancelled: onCancelled,
@@ -61,6 +63,9 @@ class PaymentConfirmationScreen extends StatelessWidget {
   }
 
   Future<bool> onBackPressed() async {
+    if(!((await paymentViewStateKey.currentState?.onBackPressed()) ?? false)) {
+      return false;
+    }
     onCancelled(payment);
     return false;
   }

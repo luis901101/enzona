@@ -146,7 +146,10 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
     return Scaffold(
       body: Stack(
         children: [
-          webView,
+          WillPopScope(
+            child: webView,
+            onWillPop: onBackPressed,
+          ),
           AnimatedPositioned(
             left: 0,
             right: 0,
@@ -208,5 +211,18 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
   Future<void> controllerGoBack() async {
     webViewXController?.goBack();
     inAppWebViewControllerController?.goBack();
+  }
+
+  Future<bool> controllerCanGoBack() async =>
+      await webViewXController?.canGoBack() ??
+      await inAppWebViewControllerController?.canGoBack() ??
+      false;
+
+  Future<bool> onBackPressed() async {
+    if(await controllerCanGoBack()) {
+      controllerGoBack();
+      return false;
+    }
+    return true;
   }
 }
