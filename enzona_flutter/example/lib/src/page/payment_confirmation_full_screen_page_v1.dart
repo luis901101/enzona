@@ -16,7 +16,7 @@ class PaymentConfirmationFullScreenPageV1 extends StatefulWidget {
 class PaymentConfirmationFullScreenPageV1State<S extends StatefulWidget> extends BasePageState<S> {
 
   @override
-  String get description => 'Este es un ejemplo de como usar la pantalla de confirmación de pago (Variante 1).';
+  String get description => 'Este es un ejemplo de como usar la pantalla de confirmación de pago (Variante 1) con Tema personalizado.';
 
   @override
   Widget paymentConfirmationCustomView() {
@@ -33,6 +33,12 @@ class PaymentConfirmationFullScreenPageV1State<S extends StatefulWidget> extends
         PaymentConfirmationScreen(
           title: 'Confirmar pago variante 1',
           payment: payment!,
+          themeData: ThemeData.dark().copyWith(
+            colorScheme: ThemeData.dark().colorScheme.copyWith(
+              primary: Colors.deepOrange,
+              secondary: Colors.tealAccent
+            )
+          ),
         )
       ));
     if(result is Payment) {

@@ -18,11 +18,14 @@ class PaymentConfirmationView extends StatefulWidget {
   /// It will receive the updated Payment
   final ValueChanged<Payment> onPaymentCancelled;
 
+  final ThemeData? themeData;
+
   const PaymentConfirmationView({
     Key? key,
     required this.payment,
     required this.onPaymentConfirmed,
     required this.onPaymentCancelled,
+    this.themeData,
   }) : super(key: key);
 
   @override
@@ -34,6 +37,8 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
   bool isLoading = true;
   WebViewXController? webViewXController;
   InAppWebViewController? inAppWebViewControllerController;
+  @override
+  late BuildContext context;
 
   String get confirmationUrl => widget.payment.confirmationUrl ?? 'about:blank';
   String get returnUrl => widget.payment.returnUrl ?? 'about:blank';
@@ -143,44 +148,52 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
     //     ]
     //   ),
     // );
-    return Scaffold(
-      body: Stack(
-        children: [
-          WillPopScope(
-            child: webView,
-            onWillPop: onBackPressed,
-          ),
-          AnimatedPositioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            height: isLoading ? 5 : 0,
-            duration: const Duration(milliseconds: 200),
-            child: const LinearProgressIndicator(),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 8,
-        color: Theme.of(context).bottomAppBarColor,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            iconButton(
-              iconData: Icons.arrow_back,
-              onPressed: () => controllerGoBack(),
+    return Theme(
+      data: widget.themeData ?? ThemeData.fallback(),
+      child: Builder(
+        builder: (context) {
+          this.context = context;
+          return Scaffold(
+            body: Stack(
+              children: [
+                WillPopScope(
+                  child: webView,
+                  onWillPop: onBackPressed,
+                ),
+                AnimatedPositioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: isLoading ? 5 : 0,
+                  duration: const Duration(milliseconds: 200),
+                  child: const LinearProgressIndicator(),
+                ),
+              ],
             ),
-            iconButton(
-              iconData: Icons.refresh,
-              onPressed: () => controllerReload(),
+            bottomNavigationBar: BottomAppBar(
+              elevation: 8,
+              color: Theme.of(context).bottomAppBarColor,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  iconButton(
+                    iconData: Icons.arrow_back,
+                    onPressed: () => controllerGoBack(),
+                  ),
+                  iconButton(
+                    iconData: Icons.refresh,
+                    onPressed: () => controllerReload(),
+                  ),
+                  iconButton(
+                    iconData: Icons.arrow_forward,
+                    onPressed: () => controllerGoForward(),
+                  ),
+                ],
+              ),
             ),
-            iconButton(
-              iconData: Icons.arrow_forward,
-              onPressed: () => controllerGoForward(),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
