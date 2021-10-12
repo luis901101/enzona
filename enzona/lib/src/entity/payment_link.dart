@@ -1,5 +1,6 @@
 
 import 'package:enzona/src/utils/jsonable.dart';
+import 'package:enzona/src/utils/params.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment_link.g.dart';
@@ -25,7 +26,7 @@ class PaymentLink extends Jsonable<PaymentLink>{
 	/// "GET": Indicates the link should be used to make a GET request
 	String? method;
 
-	@JsonKey(name: 'href')
+	@JsonKey(name: Params.href)
 	String? url;
 
 	PaymentLink({this.rel, this.method, this.url});

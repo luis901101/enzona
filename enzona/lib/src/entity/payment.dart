@@ -3,39 +3,40 @@ import 'package:enzona/src/entity/payment_item.dart';
 import 'package:enzona/src/entity/payment_link.dart';
 import 'package:enzona/src/utils/json_utils.dart';
 import 'package:enzona/src/utils/jsonable.dart';
+import 'package:enzona/src/utils/params.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Payment extends Jsonable<Payment>{
-  @JsonKey(name: "transaction_uuid")
+  @JsonKey(name: Params.transactionUUID)
   String? transactionUUID;
-  @JsonKey(name: "transaction_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: Params.transactionCode, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? transactionCode;
-  @JsonKey(name: "transaction_signature")
+  @JsonKey(name: Params.transactionSignature)
   String? transactionSignature;
-  @JsonKey(name: "transaction_denom")
+  @JsonKey(name: Params.transactionDenom)
   String? transactionDenom;
-  @JsonKey(name: "transaction_description")
+  @JsonKey(name: Params.transactionDescription)
   String? transactionDescription;
-  @JsonKey(name: "transaction_created_at")
+  @JsonKey(name: Params.transactionCreatedAt)
   DateTime? transactionCreatedAt;
-  @JsonKey(name: "transaction_updated_at")
+  @JsonKey(name: Params.transactionUpdatedAt)
   DateTime? transactionUpdatedAt;
   String? leaf;
   String? currency;
-  @JsonKey(name: "created_at")
+  @JsonKey(name: Params.createdAt)
   DateTime? createdAt;
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: Params.updatedAt)
   DateTime? updatedAt;
   String? status;
-  @JsonKey(name: "status_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: Params.statusCode, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? statusCode;
-  @JsonKey(name: "status_denom")
+  @JsonKey(name: Params.statusDenom)
   String? statusDenom;
   String? description;
-  @JsonKey(name: "invoice_number", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: Params.invoiceNumber, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? invoiceNumber;
   /// This is a number to identify the operation by a merchant.
   /// Useful for merchant business logic implementation to identify payments
@@ -49,25 +50,25 @@ class Payment extends Jsonable<Payment>{
   List<PaymentLink>? links;
   @JsonKey(toJson: JsonUtils.doubleToJsonString2Digits, fromJson: JsonUtils.doubleFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   double? commission;
-  @JsonKey(name: "buyer_identity_code")
+  @JsonKey(name: Params.buyerIdentityCode)
   String? buyerIdentityCode;
-  @JsonKey(name: "merchant_uuid")
+  @JsonKey(name: Params.merchantUUID)
   String? merchantUUID;
-  @JsonKey(name: "merchant_name")
+  @JsonKey(name: Params.merchantName)
   String? merchantName;
-  @JsonKey(name: "merchant_alias")
+  @JsonKey(name: Params.merchantAlias)
   String? merchantAlias;
-  @JsonKey(name: "merchant_avatar")
+  @JsonKey(name: Params.merchantAvatar)
   String? merchantAvatar;
-  @JsonKey(name: "refunded_amount")
+  @JsonKey(name: Params.refundedAmount)
   String? refundedAmount;
   String? username;
   String? name;
   String? lastname;
   String? avatar;
-  @JsonKey(name: "return_url")
+  @JsonKey(name: Params.returnUrl)
   String? returnUrl;
-  @JsonKey(name: "cancel_url")
+  @JsonKey(name: Params.cancelUrl)
   String? cancelUrl;
 
   @JsonKey(ignore: true)

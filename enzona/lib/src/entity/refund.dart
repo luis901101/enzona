@@ -4,21 +4,22 @@ import 'package:enzona/src/entity/payment_item.dart';
 import 'package:enzona/src/entity/payment_link.dart';
 import 'package:enzona/src/utils/json_utils.dart';
 import 'package:enzona/src/utils/jsonable.dart';
+import 'package:enzona/src/utils/params.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'refund.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Refund extends Payment {
-  @JsonKey(name: "transaction_status_code", fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
+  @JsonKey(name: Params.transactionStatusCode, fromJson: JsonUtils.intFromJson)//toJson and fromJson implementations here are necessary due to a bad field type declaration on ENZONA API
   int? transactionStatusCode;
-  @JsonKey(name: "parent_payment_uuid")
+  @JsonKey(name: Params.parentPaymentUUID)
   String? parentPaymentUUID;
-  @JsonKey(name: "refund_name")
+  @JsonKey(name: Params.refundName)
   String? refundName;
-  @JsonKey(name: "refund_lastname")
+  @JsonKey(name: Params.refundLastname)
   String? refundLastname;
-  @JsonKey(name: "refund_avatar")
+  @JsonKey(name: Params.refundAvatar)
   String? refundAvatar;
   Refund({
     this.transactionStatusCode,
