@@ -1,9 +1,9 @@
 ## Breve descripción
 Esta librería es un SDK que tiene como objetivo facilitar el uso de las APIs de [ENZONA](https://www.enzona.net/), de manera tal que el desarrollador solo tenga que concentrarse en la lógica de negocio de su proyecto.
 
-## APIs Soportadas
+## APIs disponibles
 
-| API | Soportada |
+| API | Dispnible |
 | ------ | ------ |
 | PaymentAPI | :white_check_mark: |
 | QRAPI | :ballot_box_with_check: |
@@ -36,11 +36,11 @@ Finalmente solo tienes que ejecutar:
 `dart pub get` **ó** `flutter pub get` según el tipo de proyecto para descargar la dependencia a tu pub-cache
 
 ## ¿Cómo usar este SDK?
-### 1 . Construyes una instancia de Enzona así:
+### Muy simple, solo construyes una instancia de este SDK de Enzona así:
 ```dart
 final enzona = Enzona(  
   apiUrl: apiUrl, //Url base de las APIs de ENZONA (https://api.enzona.net ó https://apisandbox.enzona.net)
-  accessTokenUrl: accessTokenUrl, //Url del endpoint de autenticación OAuth2 ((https://api.enzona.net/token ó https://apisandbox.enzona.net/token)
+  accessTokenUrl: accessTokenUrl, //Opcionalmente. Url del endpoint de autenticación OAuth2 (https://api.enzona.net/token ó https://apisandbox.enzona.net/token), esta Url en caso de no pasarse se asume automáticamente la Url: '$apiUrl/token'
   consumerKey: consumerKey, //El Consumer Key del Comercio para el cual se desea acceder a las APIs de ENZONA
   consumerSecret: consumerSecret, //El Consumer Secret del Comercio para el cual se desea acceder a las APIs de ENZONA
   scopes: scopes, //El alcance que tendrá el token de autenticacón
@@ -48,7 +48,57 @@ final enzona = Enzona(
   httpClient: HttpClient(), //Opcionalmente una instancia de HttpClient para tener control sobre las peticiones http, como la validación de certificados, etc.
 );
 ```
+**Y luego la inicializas así:**
+```dart
+await enzona.init();
+```
+**Y listo ya tienes acceso a las APIs de ENZONA...**
+> En la mayoría de los casos con una instancia simple como esta bastará:
+> ```dart
+>final enzona = Enzona(  
+>  apiUrl: apiUrl,  
+>  consumerKey: consumerKey,  
+>  consumerSecret: consumerSecret,  
+>  scopes: scopes,  
+>);
+>```
 
+## ¿Cómo funciona la autenticación?
+Las APIs de ENZONA implementan una variante de OAuth2 **(sin renovación de token)** para la autenticación, [*(ver documentación)*](https://apisandbox.enzona.net/store/site/themes/wso2/templates/api/documentation/download.jag?tenant=carbon.super&resourceUrl=/registry/resource/_system/governance/apimgt/applicationdata/provider/admin/PaymentAPI/v1.0.0/documentation/files/C%D1%83mo%20Obtener%20el%20token%20de%20acceso%20en%20las%20%20APIs.docx). Este SDK  implementa autenticación OAuth2 y además se encarga de **renovar el token automáticamente** sin que el desarrollador se tenga que preocupar por eso, en cada petición a las APIs se comprueba la validez del token y si este ha expirado, se procede a re-autenticar, y se continua con la petición original.
+De igual forma es posible renovar el token manualmente así como obtener las credenciales de autenticación.
+```dart
+final credentials = await enzona.refreshCredentials();  
+print(credentials.accessToken);
+```
+
+## ¿Cómo usar el PaymentAPI?
+Desde una instancia del sdk puedes acceder a las APIs disponibles, entre estas el API de pagos. Ten en cuenta que el **scope** *(alcance)* que hayas usado para la autenticación es lo que determina a qué APIs podrás acceder con el **token** generado.
+
+### Funciones disponibles PaymentAPI
+
+| Función | Soportada |
+| ------ | ------ |
+| Listar/filtrar pagos | :white_check_mark: |
+| Obtener detalles de un pago | :white_check_mark: |
+| Crear un pago | :white_check_mark: |
+| Completar un pago | :white_check_mark: |
+| Cancelar un pago | :white_check_mark: |
+| Listar/filtrar devoluciones | :white_check_mark: |
+| Obtener detalles de una devolución | :white_check_mark: |
+| Realizar una devolución parcial o completa | :white_check_mark: |
+
+
+### Listar/filtrar pagos
+```dart
+final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5);  
+if(response.isSuccessful && (response.body?.isNotEmpty ?? false)) {  
+  print('totalCount: ${response.headers[Pagination.totalCountHeader]}');  
+ for(var payment in response.body!) {  
+    print('id: ${payment.transactionUUID}, statusCode: ${payment.statusCode}');  
+  }  
+}
+```
+> **Pagination.totalCountHeader** se refiere al valor total de pagos que llega en los headers del response.
 
 ## Create files and folders
 

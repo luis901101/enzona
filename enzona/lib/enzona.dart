@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:enzona/src/apiservice/payment_api.dart';
 import 'package:enzona/src/apiservice/payment_api_retrofit.dart';
 import 'package:enzona/src/base_api/dio_oauth2_client.dart';
-import 'package:enzona/src/utils/platofrm_utils.dart';
+import 'package:enzona/src/utils/platform_utils.dart';
 
 import 'package:enzona/src/apiservice/payment_api_chopper.dart';
 import 'package:enzona/src/base_api/custom_oauth2_client.dart';
