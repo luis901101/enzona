@@ -54,18 +54,18 @@ void main() async {
       merchantOpId: PaymentRequest.generateRandomMerchantOpId(),
       currency: "CUP",
       amount: PaymentAmount(
-        total: 30,
+        total: 33,
         details: PaymentAmountDetails(
-          shipping: 0,
+          shipping: 1,
           tax: 0,
-          discount: 0,
-          tip: 0,
+          discount: 2,
+          tip: 4,
         ),
       ),
       items: [
         PaymentItem(
           name: "Payment Item 1",
-          description: "Double item",
+          description: "Some item description",
           quantity: 2,
           price: 15,
           tax: 0,
