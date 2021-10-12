@@ -3,6 +3,7 @@ import 'package:chopper/chopper.dart';
 import 'package:enzona/src/base_api/rest_api_service.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
+import 'package:enzona/src/enumerator/order.dart';
 
 part 'payment_service.chopper.dart';
 
@@ -21,7 +22,7 @@ abstract class PaymentService extends ChopperService {
     @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     @Query('start_date_filter') String? startDate,
     @Query('end_date_filter') String? endDate,
-    @Query('order_filter') String? order, ///Available values : asc, desc
+    @Query('order_filter',) Order? order, ///Available values : asc, desc
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
 
@@ -58,7 +59,7 @@ abstract class PaymentService extends ChopperService {
     @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     @Query('start_date_filter') String? startDate,
     @Query('end_date_filter') String? endDate,
-    @Query('order_filter') String? order, ///Available values : asc, desc
+    @Query('order_filter',) Order? order, ///Available values : asc, desc
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
 

@@ -6,6 +6,7 @@ import 'package:enzona/src/entity/payment_amount_details.dart';
 import 'package:enzona/src/entity/payment_item.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
+import 'package:enzona/src/enumerator/order.dart';
 import 'package:enzona/src/enumerator/status_code.dart';
 import 'package:test/test.dart';
 
@@ -19,7 +20,7 @@ void main() async {
 
   group('Retrieve payments use cases', () {
     test('Get payments list', () async {
-      final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5);
+      final response = await enzona.paymentAPI.getPayments(pageIndex: 0, pageSize: 5, order: Order.desc);
       expect(response.isSuccessful, true);
       expect(response.headers.containsKey(Pagination.totalCountHeader), true);
     });

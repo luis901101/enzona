@@ -67,8 +67,10 @@ await enzona.init();
 Las APIs de ENZONA implementan una variante de OAuth2 **(sin renovación de token)** para la autenticación, [*(ver documentación)*](https://apisandbox.enzona.net/store/site/themes/wso2/templates/api/documentation/download.jag?tenant=carbon.super&resourceUrl=/registry/resource/_system/governance/apimgt/applicationdata/provider/admin/PaymentAPI/v1.0.0/documentation/files/C%D1%83mo%20Obtener%20el%20token%20de%20acceso%20en%20las%20%20APIs.docx). Este SDK  implementa autenticación OAuth2 y además se encarga de **renovar el token automáticamente** sin que el desarrollador se tenga que preocupar por eso, en cada petición a las APIs se comprueba la validez del token y si este ha expirado, se procede a re-autenticar, y se continua con la petición original.
 De igual forma es posible renovar el token manualmente así como obtener las credenciales de autenticación.
 ```dart
-final credentials = await enzona.refreshCredentials();  
-print(credentials.accessToken);
+if(enzona.credentials.isExpired) {  
+  final credentials = await enzona.refreshCredentials();  
+  print(credentials.accessToken);
+}
 ```
 
 ## ¿Cómo usar el PaymentAPI?

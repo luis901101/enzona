@@ -120,7 +120,7 @@ class EnzonaRetrofit extends Enzona {
 
   EnzonaRetrofit({
     required String apiUrl,
-    required String accessTokenUrl,
+    String? accessTokenUrl,
     required String consumerKey,
     required String consumerSecret,
     required List<String> scopes,

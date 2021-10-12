@@ -5,6 +5,7 @@ import 'package:enzona/src/base_api/rest_api.dart' as rest_api;
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
+import 'package:enzona/src/enumerator/order.dart';
 import 'package:enzona/src/service/payment_service_retrofit.dart';
 
 class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
@@ -23,7 +24,7 @@ class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
     int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     String? startDate,
     String? endDate,
-    String? order, ///Available values : asc, desc
+    Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
     return parsePaginationResponseAsList(
@@ -105,7 +106,7 @@ class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
     dynamic status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     String? startDate,
     String? endDate,
-    String? order, ///Available values : asc, desc
+    Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
     return genericParsePaginationResponseAsList(

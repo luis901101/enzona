@@ -35,7 +35,7 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       r'status_filter': status,
       r'start_date_filter': startDate,
       r'end_date_filter': endDate,
-      r'order_filter': order
+      r'order_filter': order?.toJson()
     };
     queryParameters.addAll(filters);
     queryParameters.removeWhere((k, v) => v == null);
@@ -144,7 +144,7 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       r'status_filter': status,
       r'start_date_filter': startDate,
       r'end_date_filter': endDate,
-      r'order_filter': order
+      r'order_filter': order?.toJson()
     };
     queryParameters.addAll(filters);
     queryParameters.removeWhere((k, v) => v == null);

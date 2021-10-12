@@ -26,7 +26,7 @@ class _$PaymentService extends PaymentService {
       int? status,
       String? startDate,
       String? endDate,
-      String? order,
+      Order? order,
       Map<String, dynamic> filters = const {}}) {
     final $url = '/payment/v1.0.0/payments';
     final $params = <String, dynamic>{
@@ -84,7 +84,7 @@ class _$PaymentService extends PaymentService {
       int? status,
       String? startDate,
       String? endDate,
-      String? order,
+      Order? order,
       Map<String, dynamic> filters = const {}}) {
     final $url = '/payment/v1.0.0/payments/refunds';
     final $params = <String, dynamic>{

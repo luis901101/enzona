@@ -4,6 +4,7 @@ import 'package:enzona/src/base_api/e_response.dart';
 import 'package:enzona/src/entity/payment.dart';
 import 'package:enzona/src/entity/payment_request.dart';
 import 'package:enzona/src/entity/refund.dart';
+import 'package:enzona/src/enumerator/order.dart';
 import 'package:enzona/src/service/payment_service.dart';
 
 class PaymentAPIChopper extends PaymentAPI<PaymentService, Payment> {
@@ -22,7 +23,7 @@ class PaymentAPIChopper extends PaymentAPI<PaymentService, Payment> {
     int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     String? startDate,
     String? endDate,
-    String? order, ///Available values : asc, desc
+    Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
     return parsePaginationResponseAsList(
@@ -104,7 +105,7 @@ class PaymentAPIChopper extends PaymentAPI<PaymentService, Payment> {
     int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
     String? startDate,
     String? endDate,
-    String? order, ///Available values : asc, desc
+    Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
     return genericParsePaginationResponseAsList(
