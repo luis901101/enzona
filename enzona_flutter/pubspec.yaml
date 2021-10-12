@@ -1,5 +1,5 @@
 name: enzona_flutter
-description: SDK for Enzona API with payment confirmation support.
+description: SDK para las APIs de Enzona con soporte para confirmación de pago.
 version: 0.0.1+1
 homepage: https://github.com/luis901101/enzona
 

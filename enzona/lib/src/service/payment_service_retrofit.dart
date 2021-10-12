@@ -11,7 +11,12 @@ part 'payment_service_retrofit.g.dart';
 
 @RestApi()
 abstract class PaymentServiceRetrofit {
-  factory PaymentServiceRetrofit(Dio dio, {String? baseUrl}) = _PaymentServiceRetrofit;
+  factory PaymentServiceRetrofit(Dio dio, {String? baseUrl}) {
+    return _PaymentServiceRetrofit(
+      dio,
+      baseUrl: '${dio.options.baseUrl}/payment/v1.0.0'
+    );
+  }
 
   ///Payments
   @GET('/payments')

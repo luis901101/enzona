@@ -28,7 +28,7 @@ class _$PaymentService extends PaymentService {
       String? endDate,
       String? order,
       Map<String, dynamic> filters = const {}}) {
-    final $url = '/payments';
+    final $url = '/payment/v1.0.0/payments';
     final $params = <String, dynamic>{
       'merchant_uuid': merchantUUID,
       'limit': pageSize,
@@ -47,14 +47,14 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> getPayment({required String transactionUUID}) {
-    final $url = '/payments/$transactionUUID';
+    final $url = '/payment/v1.0.0/payments/$transactionUUID';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> createPayment({required PaymentRequest data}) {
-    final $url = '/payments';
+    final $url = '/payment/v1.0.0/payments';
     final $body = data;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -62,14 +62,14 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> completePayment({required String transactionUUID}) {
-    final $url = '/payments/$transactionUUID/complete';
+    final $url = '/payment/v1.0.0/payments/$transactionUUID/complete';
     final $request = Request('POST', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> cancelPayment({required String transactionUUID}) {
-    final $url = '/payments/$transactionUUID/cancel';
+    final $url = '/payment/v1.0.0/payments/$transactionUUID/cancel';
     final $request = Request('POST', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -86,7 +86,7 @@ class _$PaymentService extends PaymentService {
       String? endDate,
       String? order,
       Map<String, dynamic> filters = const {}}) {
-    final $url = '/payments/refunds';
+    final $url = '/payment/v1.0.0/payments/refunds';
     final $params = <String, dynamic>{
       'merchant_uuid': merchantUUID,
       'transaction_uuid': transactionUUID,
@@ -105,7 +105,7 @@ class _$PaymentService extends PaymentService {
 
   @override
   Future<Response<dynamic>> getRefund({required String transactionUUID}) {
-    final $url = '/payments/refund/$transactionUUID';
+    final $url = '/payment/v1.0.0/payments/refund/$transactionUUID';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -113,7 +113,7 @@ class _$PaymentService extends PaymentService {
   @override
   Future<Response<dynamic>> refundPayment(
       {required String transactionUUID, required Refund? data}) {
-    final $url = '/payments/$transactionUUID/refund';
+    final $url = '/payment/v1.0.0/payments/$transactionUUID/refund';
     final $body = data;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);

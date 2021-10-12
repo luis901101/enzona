@@ -39,9 +39,10 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
     };
     queryParameters.addAll(filters);
     queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(
-        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+        Options(method: 'GET', headers: _headers, extra: _extra)
             .compose(_dio.options, '/payments',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -54,10 +55,11 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
   Future<HttpResponse<Payment?>> getPayment({required transactionUUID}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Payment>>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments/$transactionUUID',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -70,11 +72,12 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
   Future<HttpResponse<Payment?>> createPayment({required data}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(data.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Payment>>(
-            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -88,10 +91,11 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       {required transactionUUID}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Payment>>(
-            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments/$transactionUUID/complete',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -105,10 +109,11 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       {required transactionUUID}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Payment>>(
-            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments/$transactionUUID/cancel',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -143,9 +148,10 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
     };
     queryParameters.addAll(filters);
     queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(
-        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+        Options(method: 'GET', headers: _headers, extra: _extra)
             .compose(_dio.options, '/payments/refunds',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -158,10 +164,11 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
   Future<HttpResponse<Refund?>> getRefund({required transactionUUID}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Refund>>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments/refund/$transactionUUID',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -176,11 +183,12 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(data?.toJson() ?? <String, dynamic>{});
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<Refund>>(
-            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/payments/$transactionUUID/refund',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));

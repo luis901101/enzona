@@ -6,7 +6,7 @@ import 'package:enzona/src/entity/refund.dart';
 
 part 'payment_service.chopper.dart';
 
-@ChopperApi(baseUrl: '/')
+@ChopperApi(baseUrl: '/payment/v1.0.0/')
 abstract class PaymentService extends ChopperService {
   static PaymentService createInstance([ChopperClient? client]) => _$PaymentService(client);
 

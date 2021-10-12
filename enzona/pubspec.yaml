@@ -1,5 +1,5 @@
 name: enzona
-description: SDK for Enzona API.
+description: SDK para las APIs de Enzona.
 version: 0.0.1+1
 homepage: https://github.com/luis901101/enzona
 
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   json_serializable: ^5.0.2
   chopper_generator: ^4.0.2
-  retrofit_generator: ^2.0.1+1
+  retrofit_generator: ^2.0.1+2
   build_runner: ^2.1.4 #flutter packages pub run build_runner build
   lints: ^1.0.1
   test: ^1.18.2
