@@ -24,8 +24,8 @@ class _$PaymentService extends PaymentService {
       String? merchantOp,
       String? enzonaOp,
       int? status,
-      String? startDate,
-      String? endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       Order? order,
       Map<String, dynamic> filters = const {}}) {
     final $url = '/payment/v1.0.0/payments';
@@ -82,8 +82,8 @@ class _$PaymentService extends PaymentService {
       int? pageSize,
       int? pageIndex,
       int? status,
-      String? startDate,
-      String? endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       Order? order,
       Map<String, dynamic> filters = const {}}) {
     final $url = '/payment/v1.0.0/payments/refunds';

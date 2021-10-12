@@ -33,8 +33,8 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       r'merchant_op_filter': merchantOp,
       r'enzona_op_filter': enzonaOp,
       r'status_filter': status,
-      r'start_date_filter': startDate,
-      r'end_date_filter': endDate,
+      r'start_date_filter': startDate?.toJson(),
+      r'end_date_filter': endDate?.toJson(),
       r'order_filter': order?.toJson()
     };
     queryParameters.addAll(filters);
@@ -142,8 +142,8 @@ class _PaymentServiceRetrofit implements PaymentServiceRetrofit {
       r'limit': pageSize,
       r'offset': pageIndex,
       r'status_filter': status,
-      r'start_date_filter': startDate,
-      r'end_date_filter': endDate,
+      r'start_date_filter': startDate?.toJson(),
+      r'end_date_filter': endDate?.toJson(),
       r'order_filter': order?.toJson()
     };
     queryParameters.addAll(filters);

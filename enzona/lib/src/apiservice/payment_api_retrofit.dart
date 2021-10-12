@@ -22,8 +22,8 @@ class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
     String? merchantOp,
     String? enzonaOp,
     int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
-    String? startDate,
-    String? endDate,
+    DateTime? startDate,
+    DateTime? endDate,
     Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {
@@ -104,8 +104,8 @@ class PaymentAPIRetrofit extends PaymentAPI<PaymentServiceRetrofit, Payment> {
     int? pageSize,
     int? pageIndex,
     dynamic status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
-    String? startDate,
-    String? endDate,
+    DateTime? startDate,
+    DateTime? endDate,
     Order? order, ///Available values : asc, desc
     Map<String, dynamic>? filters ///Use filters map for more dynamic filtering
   }) async {

@@ -20,8 +20,8 @@ abstract class PaymentService extends ChopperService {
     @Query('merchant_op_filter') String? merchantOp,
     @Query('enzona_op_filter') String? enzonaOp,
     @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
-    @Query('start_date_filter') String? startDate,
-    @Query('end_date_filter') String? endDate,
+    @Query('start_date_filter') DateTime? startDate,
+    @Query('end_date_filter') DateTime? endDate,
     @Query('order_filter',) Order? order, ///Available values : asc, desc
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
@@ -57,8 +57,8 @@ abstract class PaymentService extends ChopperService {
     @Query('limit') int? pageSize,
     @Query('offset') int? pageIndex,
     @Query('status_filter') int? status, ///Available values : 1111, 1112, 1113, 1114, 1115, 1116
-    @Query('start_date_filter') String? startDate,
-    @Query('end_date_filter') String? endDate,
+    @Query('start_date_filter') DateTime? startDate,
+    @Query('end_date_filter') DateTime? endDate,
     @Query('order_filter',) Order? order, ///Available values : asc, desc
     @QueryMap() Map<String, dynamic> filters = const {} ///Use filters map for more dynamic filtering
   });
