@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 /// For example:
 ///
 /// flutter run
-/// --dart-define=ENZONA_API_URL=https://apisandbox.enzona.net/payment/v1.0.0
+/// --dart-define=ENZONA_API_URL=https://apisandbox.enzona.net
 /// --dart-define=ENZONA_ACCESS_TOKEN_URL=https://apisandbox.enzona.net/token
 /// --dart-define=ENZONA_CONSUMER_KEY=your_consumer_key
 /// --dart-define=ENZONA_CONSUMER_SECRET=your_consumer_secret

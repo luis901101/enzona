@@ -5,7 +5,7 @@ import 'package:enzona/enzona.dart';
 
 /// Make sure to set all of this environment variables before running tests
 ///
-/// export ENZONA_API_URL=https://apisandbox.enzona.net/payment/v1.0.0
+/// export ENZONA_API_URL=https://apisandbox.enzona.net
 /// export ENZONA_ACCESS_TOKEN_URL=https://apisandbox.enzona.net/token
 /// export ENZONA_CONSUMER_KEY=your_consumer_key
 /// export ENZONA_CONSUMER_SECRET=your_consumer_secret
@@ -19,7 +19,6 @@ List<String>? scopes = Platform.environment['ENZONA_SCOPES']?.split(',');
 
 Enzona enzona = Enzona(
   apiUrl: '',
-  accessTokenUrl: '',
   consumerKey: '',
   consumerSecret: '',
   scopes: [],
@@ -37,7 +36,7 @@ Future<void> init() async {
 
   enzona = Enzona(
     apiUrl: apiUrl!,
-    accessTokenUrl: accessTokenUrl!,
+    // accessTokenUrl: accessTokenUrl,
     consumerKey: consumerKey!,
     consumerSecret: consumerSecret!,
     scopes: scopes!,

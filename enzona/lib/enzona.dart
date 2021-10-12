@@ -47,13 +47,15 @@ class Enzona {
 
   Enzona({
     required this.apiUrl,
-    required this.accessTokenUrl,
+    String? accessTokenUrl,
     required this.consumerKey,
     required this.consumerSecret,
     required this.scopes,
     this.timeout,
     HttpClient? httpClient,
-  }) : httpClient = PlatformUtils.isWeb ? null : (httpClient ?? (HttpClient()..badCertificateCallback =
+  }) :
+        accessTokenUrl = accessTokenUrl ?? '$apiUrl/token',
+        httpClient = PlatformUtils.isWeb ? null : (httpClient ?? (HttpClient()..badCertificateCallback =
         (X509Certificate cert, String host, int port) =>
           host == 'apisandbox.enzona.net' || host == 'api.enzona.net'));
 
