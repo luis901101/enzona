@@ -7,11 +7,15 @@ environment:
   sdk: '>=2.14.0 <3.0.0'
 
 dependencies:
+  oauth2: ^2.0.0
   json_annotation: ^4.1.0
   chopper: ^4.0.1
   retrofit: ^2.0.1
+  http: ^0.13.4
   dio: ^4.0.0
-  oauth2: ^2.0.0
+  http_parser: ^4.0.0
+  meta: ^1.7.0
+  collection: ^1.15.0
 
 dev_dependencies:
   json_serializable: ^5.0.2
