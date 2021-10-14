@@ -20,6 +20,8 @@ class PaymentConfirmationExternalLink extends StatefulWidget {
   /// It's not required because Payment will be returned when screen pops
   final ValueChanged<Payment>? onPaymentCancelled;
 
+  final ThemeData? themeData;
+
   final Function({Object? error, Exception? exception})? onError;
 
   final bool tryUniversalLinks;
@@ -31,6 +33,7 @@ class PaymentConfirmationExternalLink extends StatefulWidget {
     required this.payment,
     this.onPaymentConfirmed,
     this.onPaymentCancelled,
+    this.themeData,
     this.onError,
     this.tryUniversalLinks = true,
   }) : super(key: key);
@@ -92,19 +95,26 @@ class PaymentConfirmationExternalLinkState extends State<PaymentConfirmationExte
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        leading: CloseButton(
-          onPressed: () {
-            onCancelled(widget.payment);
-          },
-        ),
-      ),
-      body: WillPopScope(
-        onWillPop: onBackPressed,
-        child: const Center(child: CircularProgressIndicator()),
-      ),
+    return Builder(
+      builder: (context) {
+        return Theme(
+          data: widget.themeData ?? ThemeData.fallback(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(widget.title),
+              leading: CloseButton(
+                onPressed: () {
+                  onCancelled(widget.payment);
+                },
+              ),
+            ),
+            body: WillPopScope(
+              onWillPop: onBackPressed,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+          ),
+        );
+      },
     );
   }
 

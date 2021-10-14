@@ -37,6 +37,11 @@ class PaymentConfirmationExternalLinkPageV1State<S extends PaymentConfirmationEx
           enzona: enzona,
           payment: payment!,
           tryUniversalLinks: true,
+          themeData: ThemeData.light().copyWith(
+            colorScheme: ThemeData.light().colorScheme.copyWith(
+              primary: Colors.orange,
+            )
+          ),
         )
       ));
     if(result is Payment) {

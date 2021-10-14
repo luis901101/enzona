@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 export 'package:enzona/src/apiservice/payment_api_chopper.dart';
+export 'package:enzona/src/apiservice/payment_api_retrofit.dart';
 
 export 'package:enzona/src/entity/error_response.dart';
 export 'package:enzona/src/entity/pagination.dart';
@@ -26,7 +27,10 @@ export 'package:enzona/src/entity/payment_request.dart';
 export 'package:enzona/src/entity/refund.dart';
 export 'package:enzona/src/base_api/e_response.dart';
 
+export 'package:enzona/src/utils/params.dart';
+
 export 'package:enzona/src/enumerator/status_code.dart';
+export 'package:enzona/src/enumerator/order.dart';
 
 /// CORS configurations from API prevents requests from unauthorized web clients
 class Enzona {

@@ -1,4 +1,4 @@
-## Breve descripción
+## Descripción
 Esta librería es un SDK **(aún en desarrollo)** que tiene como objetivo facilitar el uso de las APIs de [ENZONA](https://www.enzona.net/), de manera tal que el desarrollador solo tenga que concentrarse en la lógica de negocio de su proyecto.
 
 ## APIs disponibles
@@ -207,6 +207,7 @@ Como debe saber una vez creado un pago se debe proceder a confirmarlo, para esto
   String? confirmationUrl = payment.confirmationUrl;
   launch(confirmationUrl); //El proceso de lanzar la URL en el navegador no se maneja en este SDK
 ```
+> Para un manejo adecuado de la confirmación de un pago use [enzona_flutter](https://pub.dev/packages/enzona_flutter)
 
 ### Completar un pago
 A partir de un pago confirmado se puede proceder a completarlo.
