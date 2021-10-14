@@ -48,6 +48,14 @@ SizedBox(
 ```
 > Opcionalmente se puede definir un **`ThemeData`** para personalizar como luce el Widget, por defecto se usa el tema global de la app.
 
+#### Demo PaymentConfirmationView:
+<div>
+ <a href="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/embed.gif">
+<img src="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/embed.gif" width="230"/>
+</a>
+</div>
+
+
 ### ¿Cómo usar PaymentConfirmationScreen?
 **PaymentConfirmationScreen** está ideado para usarse como una pantalla dedicada específicamente para la confirmación de un pago, internamente usa una instancia de **PaymentConfirmationView**. 
 La respuesta del pago *(confirmado o cancelado)* se puede obtener de dos formas: 
@@ -77,6 +85,12 @@ void onPaymentChanged(Payment payment) {
   });  
 }
 ```
+#### Demo PaymentConfirmationScreen usando callbacks:
+<div>
+ <a href="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/screen-v2.gif">
+<img src="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/screen-v2.gif" width="230"/>
+</a>
+</div>
 
 #### Esperando el resultado del Future
 ```dart
@@ -107,6 +121,13 @@ Future<void> launchPaymentConfirmationScreen() async {
 > Opcionalmente  puede:
 > - Definir un título 
 > - Usar un **`ThemeData`** para personalizar como luce el Widget, por defecto se usa el tema global de la app.
+
+#### Demo PaymentConfirmationScreen con custom ThemeData esperando el resultado del Future:
+<div>
+ <a href="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/screen-v1.gif">
+<img src="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/screen-v1.gif" width="230"/>
+</a>
+</div>
 
 
 ### ¿Cómo usar PaymentConfirmationExternalLink?
@@ -151,6 +172,13 @@ void onError({Object? error, Exception? exception}) {
   setState(() {});  
 }
 ```
+
+#### Demo PaymentConfirmationExternalLink usando callbacks:
+<div>
+ <a href="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/external-link-v2.gif">
+<img src="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/external-link-v2.gif" width="230"/>
+</a>
+</div>
 
 #### Esperando el resultado del Future
 ```dart
@@ -201,6 +229,14 @@ void onError({Object? error, Exception? exception}) {
 > - Usar un **`ThemeData`** para personalizar como luce el Widget, por defecto se usa el tema global de la app.
 > - Definir un callback **`onError`** para recibir cualquier error que pueda ocurrir en el proceso.
 > - Definir `tryUniversalLinks` en `true`, esto sería para que la URL de confirmación se lance al sistema operativo como un Universal Link lo cual significa que si la app oficial de ENZONA reconoce el link de confirmación entonces el usuario usaría la propia app de ENZONA en vez del navegador para confirmar el pago. 
+
+#### Demo PaymentConfirmationExternalLink con custom ThemeData esperando el resultado del Future:
+<div>
+ <a href="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/external-link-v1.gif">
+<img src="https://raw.githubusercontent.com/luis901101/enzona/master/enzona_flutter/example/doc/gifs/external-link-v1.gif" width="230"/>
+</a>
+</div>
+
 
 ## Notas generales
 - **PaymentConfirmationView** ofrece varios botones de navegación, Ir Atrás, Ir Adelante y Recargar.
