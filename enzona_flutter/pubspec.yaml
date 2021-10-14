@@ -13,8 +13,8 @@ dependencies:
   webviewx: ^0.2.1
   flutter_inappwebview: ^5.3.2
   url_launcher: ^6.0.12
-  enzona: #^0.0.1+1
-    path: ../enzona #Only for development
+  enzona: ^0.0.1+1
+#    path: ../enzona #Only for development
 
 dev_dependencies:
   flutter_test:

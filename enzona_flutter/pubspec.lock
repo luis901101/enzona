@@ -67,9 +67,9 @@ packages:
   enzona:
     dependency: "direct main"
     description:
-      path: "../enzona"
-      relative: true
-    source: path
+      name: enzona
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.0.1+1"
   fake_async:
     dependency: transitive
