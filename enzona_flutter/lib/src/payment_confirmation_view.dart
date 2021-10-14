@@ -63,6 +63,12 @@ class PaymentConfirmationViewState extends State<PaymentConfirmationView> {
         onPageFinished: (url) => hideLoading(),
       );
     }
+
+    /// InAppWebView is a better choice for Android and iOS than official plugin for WebViews
+    /// (WebViewX uses official WebView plugin) due to the possibility to
+    /// manage ServerTrustAuthRequest, which is crucial in Android because Android
+    /// native WebView does not allow to access an URL with a certificate not authorized by
+    /// known certification authority.
     return InAppWebView(
       initialOptions: InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(

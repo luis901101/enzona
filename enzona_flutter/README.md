@@ -2,11 +2,12 @@
 Este plugin para Flutter **(aún en desarrollo)** tiene como objetivo complementar el SDK de [enzona](https://pub.dev/packages/enzona).
 **Se recomienda antes de usar este plugin que revise la documentación de [enzona](https://pub.dev/packages/enzona).**
 
-## Configuraciones requeridas en Android
-...
+## Configuraciones requeridas
+Por defecto no deberían ser necesarias ninguna configuración en **Android** ni en **iOS**, no obstante como este plugin hace uso de otros plugins se recomienda revisar las documentaciones de los mismos:
+- [webviewx](https://pub.dev/packages/webviewx)
+- [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview)
+- [url_launcher](https://pub.dev/packages/url_launcher)
 
-## Configuraciones requeridas en iOS
-...
 
 ## Funcionalidades disponibles
 
@@ -26,7 +27,6 @@ Para el manejo de la confirmación se ofrecen varias formas:
 ### ¿Cómo usar PaymentConfirmationView?
 **PaymentConfirmationView** se expande horizontal y verticalmente para ocupar todo el espacio disponible, por tal razón es importante tener en cuenta a la hora de ubicarlo dentro de un WidgetTree las restricciones de tamaño *(size constraints)*, es decir si se usa dentro de un **Column** o dentro de un **ListView** será necesario limitar su tamaño verticalmente.
 Básicamente son requeridos tres elementos, el objeto de tipo **`Payment`** que se obtiene luego de crear un pago, un **callback** para obtener el pago en caso de ser confirmado **`onPaymentConfirmed`** y otro **callback** para obtener el pago en caso de ser cancelado **`onPaymentCancelled`**. 
-> Opcionalmente se puede definir un **`ThemeData`** para personalizar como luce el Widget, por defecto se usa el tema global de la app.
 ```dart
 SizedBox(  
   height: MediaQuery.of(context).size.height * 70 / 100,  
@@ -46,6 +46,7 @@ SizedBox(
   ),  
 )
 ```
+> Opcionalmente se puede definir un **`ThemeData`** para personalizar como luce el Widget, por defecto se usa el tema global de la app.
 
 ### ¿Cómo usar PaymentConfirmationScreen?
 **PaymentConfirmationScreen** está ideado para usarse como una pantalla dedicada específicamente para la confirmación de un pago, internamente usa una instancia de **PaymentConfirmationView**. 
@@ -201,6 +202,13 @@ void onError({Object? error, Exception? exception}) {
 > - Definir un callback **`onError`** para recibir cualquier error que pueda ocurrir en el proceso.
 > - Definir `tryUniversalLinks` en `true`, esto sería para que la URL de confirmación se lance al sistema operativo como un Universal Link lo cual significa que si la app oficial de ENZONA reconoce el link de confirmación entonces el usuario usaría la propia app de ENZONA en vez del navegador para confirmar el pago. 
 
+## Notas generales
+- **PaymentConfirmationView** ofrece varios botones de navegación, Ir Atrás, Ir Adelante y Recargar.
+- **PaymentConfirmationView** muestra una barra de de progreso mientras se cargan las URLs
+- Cuando se usa un **ThemeData** en un **PaymentConfirmationView** se puede personalizar el aspecto visual de los botones de navegación y de la barra de progreso.
+
+## Recomendación  
+Vea el código de ejemplo donde se muestran todas las maneras de usar el plugin para confirmar pagos.
 
 ## Contribución  
 Si encuentra algún problema no dude en abrir un ISSUE, siéntase libre de hacer fork, mejorar el plugin y hacer pull request.

@@ -65,6 +65,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Scrollbar(
         child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
             ListTile(
               title: const Text('Confirmar pago InApp con Widget embebido'),
